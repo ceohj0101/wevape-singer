@@ -4,6 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WEVAPE SINGER</title>
+<meta name="description" content="위베이프의 광대 — HKR RECORDS 소속 AI 트로트 가수 장현진·차영근·김형진. 앨범을 고르면 LP판이 돌아갑니다.">
+<link rel="canonical" href="https://ceohj0101.github.io/wevape-singer/">
+<meta property="og:type" content="music.album">
+<meta property="og:site_name" content="WEVAPE SINGER">
+<meta property="og:title" content="WEVAPE SINGER — 위베이프의 광대">
+<meta property="og:description" content="HKR RECORDS 소속 AI 트로트 가수 장현진·차영근·김형진. 앨범을 고르면 LP판이 돌아갑니다.">
+<meta property="og:url" content="https://ceohj0101.github.io/wevape-singer/">
+<meta property="og:image" content="https://ceohj0101.github.io/wevape-singer/og.jpg">
+<meta property="og:image:secure_url" content="https://ceohj0101.github.io/wevape-singer/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WEVAPE SINGER — 위베이프의 광대">
+<meta name="twitter:description" content="HKR RECORDS 소속 AI 트로트 가수 장현진·차영근·김형진.">
+<meta name="twitter:image" content="https://ceohj0101.github.io/wevape-singer/og.jpg">
+<meta name="theme-color" content="#0C0E12">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
@@ -248,6 +269,35 @@ svg[hidden]{display:none}
 .hint{font-size:12px;color:var(--faint);margin-top:26px;border-top:1px solid var(--line);padding-top:16px;max-width:62ch;line-height:1.75}
 .hint code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;background:var(--surface-2);padding:1px 5px;border-radius:3px}
 
+/* ---------- 인기차트 ---------- */
+.chart-head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.chart-note{font-size:12px;color:var(--faint);margin:14px 0 0;line-height:1.7}
+.ranks{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rank{display:grid;grid-template-columns:58px 62px minmax(0,1fr) 96px;gap:16px;align-items:center;
+  width:100%;text-align:left;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);
+  animation:riseSoft .4s ease-out backwards;animation-delay:calc(var(--i,0)*70ms)}
+.rank:hover{border-color:var(--brass)}
+.rank.top{border-color:var(--brass);background:linear-gradient(100deg,var(--surface) 60%,rgba(214,163,64,.10))}
+.rank-no{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:26px;line-height:1;color:var(--faint);text-align:center}
+.rank.top .rank-no{color:var(--brass);font-size:32px}
+.rank-no small{display:block;font-family:"IBM Plex Sans KR",sans-serif;font-size:10px;letter-spacing:.14em;margin-top:4px;opacity:.75}
+.rank-cover{width:62px;height:62px;border-radius:4px;overflow:hidden;background:var(--surface-2)}
+.rank-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.rank-title{display:block;font-weight:700;font-size:15.5px;margin:0 0 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-sub{display:block;font-size:12.5px;color:var(--faint);margin:0 0 8px}
+.rank-bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.rank-bar i{display:block;height:100%;background:var(--brass);border-radius:3px;transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.rank-cnt{text-align:right}
+.rank-cnt b{display:block;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:19px;color:var(--text)}
+.rank-cnt span{font-size:11px;color:var(--faint)}
+@media (max-width:620px){
+  .rank{grid-template-columns:40px 48px minmax(0,1fr) 64px;gap:10px;padding:10px}
+  .rank-cover{width:48px;height:48px}
+  .rank-no{font-size:20px}
+  .rank.top .rank-no{font-size:24px}
+  .rank-cnt b{font-size:15px}
+}
+
 /* ---------- 전체 재생 ---------- */
 .allbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 34px}
 .btn-brass{display:inline-flex;align-items:center;gap:9px;background:var(--brass);color:#fff;font-weight:600;
@@ -259,6 +309,16 @@ svg[hidden]{display:none}
   padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:500}
 .btn-ghost:hover{border-color:var(--brass);color:var(--text)}
 .rail-all{margin-bottom:4px}
+.install-btn{display:none;align-items:center;gap:7px;border:1px solid var(--brass);color:var(--brass);
+  border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.install-btn.show{display:inline-flex}
+.install-btn:hover{background:var(--brass);color:#14100A}
+.install-tip{display:none;position:fixed;left:50%;bottom:140px;transform:translateX(-50%);z-index:80;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;max-width:340px;
+  box-shadow:var(--shadow);font-size:13px;line-height:1.75;color:var(--dim)}
+.install-tip.show{display:block}
+.install-tip b{color:var(--text)}
+.install-tip button{margin-top:10px;font-size:12px;color:var(--brass);font-weight:600}
 
 /* ---------- 앨범 플레이어 화면 ---------- */
 .player{display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:42px;align-items:start}
@@ -375,6 +435,10 @@ svg[hidden]{display:none}
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color:var(--faint)"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input id="q" type="search" placeholder="가수·곡 검색" aria-label="가수 또는 곡 검색">
     </div>
+    <button class="install-btn" id="installBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+      앱 설치
+    </button>
     <button class="icon-btn" id="themeBtn" aria-label="밝게/어둡게 전환">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     </button>
@@ -439,6 +503,12 @@ svg[hidden]{display:none}
     </div>
   </div>
 </section>
+
+<div class="install-tip" id="installTip" role="dialog">
+  <b>앱처럼 설치하기</b><br>
+  <span id="installHow"></span>
+  <button id="installTipClose">닫기</button>
+</div>
 
 <audio id="au" crossorigin="anonymous"></audio>
 
@@ -719,6 +789,27 @@ ARTISTS.forEach((a) => a.tracks.forEach((t, ti) => {
 }));
 const PLAYABLE = QUEUE.filter(t => t.src);
 
+/* ---- 재생 기록 (이 기기에 저장) ---- */
+const PLAYLOG_KEY = "wevape-singer-plays";
+function readLog() {
+  try { const v = JSON.parse(localStorage.getItem(PLAYLOG_KEY) || "[]"); return Array.isArray(v) ? v : []; }
+  catch (e) { return []; }
+}
+function writeLog(list) {
+  try { localStorage.setItem(PLAYLOG_KEY, JSON.stringify(list.slice(-6000))); } catch (e) {}
+}
+function logPlay(key) {
+  const l = readLog(); l.push([key, Date.now()]); writeLog(l);
+}
+const RANGES = { day: 1, week: 7, month: 30 };
+const RANGE_LABEL = { day: "일간", week: "주간", month: "월간" };
+function rankFor(range) {
+  const since = Date.now() - RANGES[range] * 864e5;
+  const cnt = {};
+  readLog().forEach(([k, t]) => { if (t >= since) cnt[k] = (cnt[k] || 0) + 1; });
+  return PLAYABLE.map(t => ({ t, n: cnt[t.key] || 0 })).sort((a, b) => b.n - a.n || a.t.index - b.t.index);
+}
+
 $("#labelName").textContent = LABEL.name;
 $("#labelSub").textContent = LABEL.sub;
 document.title = LABEL.name;
@@ -749,7 +840,7 @@ function renderHome() {
   currentArtist = null; currentView = "home";
   view.innerHTML = `
     <p class="eyebrow">Catalog · ${ARTISTS.length}팀 · ${QUEUE.length}곡</p>
-    <h1 class="big">앨범을 고르면<br>바늘이 내려갑니다</h1>
+    <h1 class="big">위베이프의 광대</h1>
     <p class="lede">${esc(LABEL.name)} 소속 가수들. 표지를 누르면 그 가수의 수록곡이 열리고, 곡을 누르면 아래 턴테이블에서 바로 재생됩니다.</p>
     <div class="allbar">
       <button class="btn-brass" id="playEverything">
@@ -759,6 +850,10 @@ function renderHome() {
       <button class="btn-ghost" id="shuffleAll">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
         섞어서 재생
+      </button>
+      <button class="btn-ghost" id="showChart">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>
+        인기차트
       </button>
       <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}</button>
     </div>
@@ -893,6 +988,43 @@ function syncLyrics() {
   }
 }
 
+let chartRange = "day";
+function chartRowsHtml() {
+  const rows = rankFor(chartRange);
+  const max = Math.max(1, rows[0] ? rows[0].n : 1);
+  return rows.map((r, i) => `
+    <li style="--i:${i}">
+      <button class="rank${i === 0 && r.n > 0 ? " top" : ""}" data-key="${r.t.key}">
+        <span class="rank-no">${i + 1}<small>위</small></span>
+        <span class="rank-cover"><img src="${esc(r.t.artist.photo)}" alt=""></span>
+        <span style="min-width:0">
+          <span class="rank-title">${esc(r.t.title)}</span>
+          <span class="rank-sub">${esc(r.t.artist.name)} · 「${esc(r.t.artist.album)}」</span>
+          <span class="rank-bar"><i style="width:${Math.round(r.n / max * 100)}%"></i></span>
+        </span>
+        <span class="rank-cnt"><b>${r.n}</b><span>회 재생</span></span>
+      </button>
+    </li>`).join("");
+}
+
+function renderChart() {
+  currentArtist = null; currentView = "chart";
+  const total = readLog().length;
+  view.innerHTML = `
+    <p class="eyebrow">Popularity chart</p>
+    <div class="chart-head"><h1 class="big">위베이프 광대 인기차트</h1></div>
+    <p class="lede">실제로 재생된 횟수로 매기는 순위입니다. 곡을 누르면 바로 재생됩니다.</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" data-range="day" role="tab" aria-selected="${chartRange === "day"}">일간</button>
+      <button class="tab" data-range="week" role="tab" aria-selected="${chartRange === "week"}">주간</button>
+      <button class="tab" data-range="month" role="tab" aria-selected="${chartRange === "month"}">월간</button>
+    </div>
+    <ul class="ranks" id="rankList">${chartRowsHtml()}</ul>
+    <p class="chart-note">누적 재생 ${total}회 · 집계 기준 ${RANGE_LABEL[chartRange]}(최근 ${RANGES[chartRange]}일)<br>
+      재생 기록은 지금 보고 있는 기기에 저장됩니다. 방문자 전체 합산 집계로 바꾸려면 별도 서버 연결이 필요합니다.</p>`;
+  syncRail();
+}
+
 function renderPlayer(t) {
   const a = t.artist;
   currentArtist = a.id; currentView = "player";
@@ -974,7 +1106,9 @@ function allRow(t, i) {
 }
 
 function syncRail() {
-  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railAll" ${currentView === "all" ? 'aria-current="true"' : ""}>
+  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railChart" ${currentView === "chart" ? 'aria-current="true"' : ""}>
+      <span class="dot"></span>인기차트
+    </button></li>` + `<li class="rail-all"><button class="rail-item" id="railAll" ${currentView === "all" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>전체 곡 <span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${PLAYABLE.length}</span>
     </button></li>` + ARTISTS.map(a => `
     <li><button class="rail-item" data-artist="${a.id}" ${currentArtist === a.id ? 'aria-current="true"' : ""}>
@@ -1007,6 +1141,11 @@ document.addEventListener("click", (e) => {
     play(PLAYABLE[Math.floor(Math.random() * PLAYABLE.length)]); return;
   }
   if (e.target.closest("#showAll") || e.target.closest("#railAll")) { $("#q").value = ""; renderAll(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if (e.target.closest("#railChart") || e.target.closest("#showChart")) { $("#q").value = ""; renderChart(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  const rtab = e.target.closest(".tab[data-range]");
+  if (rtab) { chartRange = rtab.dataset.range; renderChart(); return; }
+  const rank = e.target.closest(".rank");
+  if (rank) { play(QUEUE.find(t => t.key === rank.dataset.key)); return; }
 });
 $("#q").addEventListener("input", (e) => {
   const v = e.target.value;
@@ -1052,7 +1191,10 @@ function play(track) {
     $("#durTime").textContent = track.duration ? fmt(track.duration) : "0:00";
   }
   const wasPlaying = !au.paused;
-  au.play().then(() => { if (!wasPlaying || !sameTrack) needleDrop(au.currentTime / (au.duration || 1)); }).catch(() => {});
+  au.play().then(() => {
+    if (!wasPlaying || !sameTrack) needleDrop(au.currentTime / (au.duration || 1));
+    if (!sameTrack) logPlay(track.key);
+  }).catch(() => {});
   renderPlayer(track);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -1245,6 +1387,42 @@ $("#themeBtn").addEventListener("click", () => {
   const isDark = curTheme ? curTheme === "dark" : sysDark;
   document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
 });
+
+/* ---- 앱 설치 (PWA) ---- */
+let deferredPrompt = null;
+const installBtn = $("#installBtn"), installTip = $("#installTip");
+const standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  if (!standalone) installBtn.classList.add("show");
+});
+window.addEventListener("appinstalled", () => { installBtn.classList.remove("show"); deferredPrompt = null; });
+if (!standalone) installBtn.classList.add("show");
+
+installBtn.addEventListener("click", async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const r = await deferredPrompt.userChoice.catch(() => null);
+    if (r && r.outcome === "accepted") installBtn.classList.remove("show");
+    deferredPrompt = null;
+    return;
+  }
+  const ua = navigator.userAgent;
+  const ios = /iPhone|iPad|iPod/.test(ua);
+  const android = /Android/.test(ua);
+  $("#installHow").innerHTML = ios
+    ? '사파리 아래쪽 <b>공유 버튼</b>(↑) → <b>홈 화면에 추가</b> 를 누르면 앱처럼 설치됩니다.'
+    : android
+      ? '브라우저 우측 상단 <b>⋮ 메뉴</b> → <b>앱 설치</b>(또는 홈 화면에 추가) 를 누르면 됩니다.'
+      : '크롬 주소창 오른쪽 끝의 <b>설치 아이콘</b>(⤓) 을 누르거나, <b>⋮ 메뉴 → 캐스트·저장 및 공유 → 페이지를 앱으로 설치</b> 를 선택하세요.';
+  installTip.classList.add("show");
+});
+$("#installTipClose").addEventListener("click", () => installTip.classList.remove("show"));
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
 
 setArm(null);
 renderHome();
