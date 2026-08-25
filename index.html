@@ -269,6 +269,36 @@ svg[hidden]{display:none}
 .hint{font-size:12px;color:var(--faint);margin-top:26px;border-top:1px solid var(--line);padding-top:16px;max-width:62ch;line-height:1.75}
 .hint code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;background:var(--surface-2);padding:1px 5px;border-radius:3px}
 
+/* ---------- 가수 소개 스토리 ---------- */
+.note{border-top:1px solid var(--line);margin-top:38px;padding-top:26px}
+.note-h{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);font-weight:600;margin:0 0 18px}
+.note p{font-size:15.5px;line-height:1.95;color:var(--dim);margin:0 0 17px;max-width:64ch}
+.note p.bodycopy:first-of-type::first-letter{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;
+  font-size:2.9em;float:left;line-height:.86;margin:4px 10px 0 0;color:var(--brass)}
+.pullquote{border-left:3px solid var(--brass);padding:6px 0 6px 18px;margin:26px 0 6px;
+  font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:clamp(18px,2.4vw,24px);
+  line-height:1.5;color:var(--text);letter-spacing:-.01em;max-width:26ch}
+
+/* ---------- 가수 명단 ---------- */
+.roster{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:16px}
+.roster-item{display:grid;grid-template-columns:132px minmax(0,1fr);gap:22px;width:100%;text-align:left;
+  border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--surface);
+  animation:riseSoft .42s ease-out backwards;animation-delay:calc(var(--i,0)*90ms)}
+.roster-item:hover{border-color:var(--brass);transform:translateY(-2px)}
+.roster-item{transition:border-color .2s,transform .2s}
+.roster-cover{width:132px;height:132px;border-radius:6px;overflow:hidden;background:var(--surface-2)}
+.roster-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.roster-name{display:block;font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:26px;margin:2px 0 6px;letter-spacing:-.02em}
+.roster-hook{display:block;font-size:14.5px;color:var(--text);margin:0 0 8px;font-weight:500}
+.roster-bio{display:block;font-size:13px;color:var(--faint);margin:0 0 12px;line-height:1.7}
+.roster-meta{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:620px){
+  .roster-item{grid-template-columns:88px minmax(0,1fr);gap:14px;padding:12px}
+  .roster-cover{width:88px;height:88px}
+  .roster-name{font-size:20px}
+  .note p.bodycopy:first-of-type::first-letter{font-size:2.4em}
+}
+
 /* ---------- 인기차트 ---------- */
 .chart-head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:6px}
 .chart-note{font-size:12px;color:var(--faint);margin:14px 0 0;line-height:1.7}
@@ -529,6 +559,14 @@ const ARTISTS = [
     id: "hyunjin", name: "장현진", tag: "트로트 신사",
     album: "정리할게요", year: "1987", cat: "AC-0258",
     bio: "인생도, 사랑도, 업무도, 사람도. 속 시원하게 다 정리해 드립니다.",
+    hook: "그럴 수 있어요. 그리고 정리할게요.",
+    quote: "갈 사람 가고! 올 사람 오고! 남을 사람 남아라~",
+    story: [
+      "그의 노래는 언제나 같은 자리에서 시작한다. 어어어어~ 하고 길게 뜸을 들이다가, 자아~ 하고 숨을 고르고, 갑니다아아아 하고 발을 뗀다. 무대에서든 사무실에서든 이 세 마디가 나오면 무언가가 끝나고 무언가가 시작된다는 뜻이다.",
+      "「정리할게요」는 원래 노래로 만들 생각이 없던 말버릇이었다. 이런 사람 저런 사람 다 그럴 수 있다고 넘겨주다가, 어느 날 좋으면 좋다 싫으면 싫다 딱 잘라 말하기로 마음먹은 날부터 그는 정리의 사람이 되었다.",
+      "첫 번째는 사랑, 두 번째는 사람, 세 번째는 밀린 업무. 순서까지 정해두고 사는 남자다. 내일 할까 물으면 안 돼 안 돼, 다음에 할까 물어도 안 돼 안 돼. 오늘 할 건 오늘 하고 미련 없이 털어내는 것이 그의 유일한 규칙이다.",
+      "그래서 무대 위 장현진은 늘 앞을 본다. 뒤돌아보지 마, 이리저리 고민 말고. 트로트 신사라는 별명은 옷차림 때문이 아니라, 끝낼 때를 아는 태도에서 붙었다."
+    ],
     color: "#C9A227", color2: "#16223F", photo: "hyunjin.jpg",
     tracks: [
       { title: "정리할게요", src: "jeongri-halkkeyo.mp3", duration: 199, tag: "타이틀", lyrics: `
@@ -637,6 +675,14 @@ const ARTISTS = [
     id: "younggeun", name: "차영근", tag: "트로트 쾌남",
     album: "피곤하거든~", year: "1987", cat: "AC-0258",
     bio: "이 남자, 노래도 근본. 한 번 들으면 잊을 수 없는 목소리.",
+    hook: "피곤하거든. 그래도 놀아야 하거든.",
+    quote: "노는 게 귀찮으면 죽어야지요",
+    story: [
+      "차영근의 노래는 하품으로 시작한다. 아으~~~~ 피곤하거든. 하루가 얼마나 고단했는지 굳이 설명하지 않고, 첫 소절에 다 실어버린다. 그런데 다음 소절이 영차 영차다. 피곤한데 왜 영차냐고 물으면, 그래도 놀아야 하거든이라고 답한다.",
+      "그가 사람을 만나면 던지는 첫 마디는 정해져 있다. 어디 살아? 몇 살? 예의 차리는 인사말을 건너뛰고 곧바로 본론으로 들어가는 방식인데, 이상하게 기분이 나쁘지 않다. 그 다음 마디가 항상 한잔 돌려이기 때문이다.",
+      "그가 가장 못 견디는 것은 칙칙한 자리다. 남자는 재미가 없거든 하고 한숨을 쉬다가도, 재밌는 친구만 앞으로 나와 하고 판을 다시 깐다. 이 친구 물건이거든이라는 말이 나오면 그날 밤은 성공한 것이다.",
+      "트로트 쾌남이라는 이름은 그렇게 붙었다. 잘생겨서가 아니라, 피곤한 얼굴로도 끝까지 자리를 지키는 사람이라서."
+    ],
     color: "#E0B24A", color2: "#12203A", photo: "younggeun.jpg",
     tracks: [
       { title: "영차거든", src: "yeongcha-geodeun.mp3", duration: 82, tag: "타이틀", lyrics: `
@@ -679,6 +725,14 @@ const ARTISTS = [
     id: "hyungjin", name: "김형진", tag: "트로트 늘보",
     album: "'85 트로트 늘보 제1집", year: "1985", cat: "HKR-8805",
     bio: "퇴근하고 얼음장같은 시원한 아사히 맥주 한 모금. 인생 뭐 있나.",
+    hook: "눈은 좀 처졌어도, 수트핏은 안 처졌지.",
+    quote: "내 쪼대로 사는게 내멋 아니겠소",
+    story: [
+      "김형진의 하루는 아침 일곱 시 거울 앞에서 시작된다. 무스는 진하게, 머리는 빳빳하게, 눈썹은 연탄으로 한 번 더. 다른 건 몰라도 얼굴 교통질서는 잡아야 한다는 것이 그의 지론이다.",
+      "현관문을 열기 전에 열쇠부터 만져본다. 논밭에 세워둔 미제 찌프차를 떠올리기 때문이다. 세피아도 쏘나타도 그에게는 용납이 안 된다. 높은 차체 위에서 창문 살짝 내리고 한 손으로 운전하는 것, 그게 남자의 삶 아니겠느냐고 그는 되묻는다.",
+      "그리고 하루의 끝. 퇴근하면 시원하게 한잔하러 간다. 한국 맥주 말고, 무조건 일본 맥주. 차갑게 따른 생맥주에 거품이 딱 올라오면 잔을 높이 들고 캬아~ 한 모금. 얼음장같은 시원한 아사히 맥주 한 모금이면 오늘 하루 피곤했던 세상일도 멀어진다.",
+      "사람들은 왜 그렇게 사느냐고 묻는다. 그는 늘 같은 대답을 한다. 무스도 내가 고르고 맥주도 내가 고르고 차도 내가 고르지. 눈은 조금 처졌어도 마음만은 뜨겁소. 나 같은 남자 어때요."
+    ],
     color: "#D9A24B", color2: "#4A2A18", photo: "hyungjin.jpg",
     tracks: [
       { title: "나 같은 남자 어때요", src: "na-gateun-namja.mp3", duration: 276, tag: "타이틀", lyrics: `
@@ -855,6 +909,7 @@ function renderHome() {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>
         인기차트
       </button>
+      <button class="btn-ghost" id="showRoster">가수 명단</button>
       <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}</button>
     </div>
     <ul class="grid">
@@ -894,6 +949,42 @@ function trackRow(t, i) {
   </li>`;
 }
 
+function storyHtml(a) {
+  if (!a.story || !a.story.length) return "";
+  return `<section class="note">
+    <p class="note-h">Artist Note · ${esc(a.name)}</p>
+    ${a.quote ? `<p class="pullquote">"${esc(a.quote)}"</p>` : ""}
+    ${a.story.map(t => `<p class="bodycopy">${esc(t)}</p>`).join("")}
+  </section>`;
+}
+
+function renderRoster() {
+  currentArtist = null; currentView = "roster";
+  view.innerHTML = `
+    <p class="eyebrow">Roster · ${ARTISTS.length}팀</p>
+    <h1 class="big">가수 명단</h1>
+    <p class="lede">HKR RECORDS 소속 가수들. 이름을 누르면 그 사람의 이야기와 수록곡이 열립니다.</p>
+    <ul class="roster">
+      ${ARTISTS.map((a, i) => `
+        <li style="--i:${i}">
+          <button class="roster-item" data-artist="${a.id}">
+            <span class="roster-cover"><img src="${esc(a.photo)}" alt="${esc(a.name)}" loading="lazy"></span>
+            <span style="min-width:0">
+              <span class="roster-name">${esc(a.name)}</span>
+              <span class="roster-hook">${esc(a.hook || a.bio)}</span>
+              <span class="roster-bio">${esc(a.bio)}</span>
+              <span class="roster-meta">
+                <span class="pill">${esc(a.tag)}</span>
+                <span class="pill">「${esc(a.album)}」 ${esc(a.year)}</span>
+                <span class="pill">${a.tracks.length}곡</span>
+              </span>
+            </span>
+          </button>
+        </li>`).join("")}
+    </ul>`;
+  syncRail();
+}
+
 function renderArtist(id) {
   const a = ARTISTS.find(x => x.id === id);
   if (!a) return renderHome();
@@ -925,7 +1016,8 @@ function renderArtist(id) {
       </div>
     </div>
     <div class="tl-head stagger" style="--i:2"><span>#</span><span>곡</span><span>구분</span><span style="text-align:right">길이</span></div>
-    <ul class="tl">${list.map(trackRow).join("")}</ul>`;
+    <ul class="tl">${list.map(trackRow).join("")}</ul>
+    ${storyHtml(a)}`;
   syncRail();
 }
 
@@ -1106,7 +1198,9 @@ function allRow(t, i) {
 }
 
 function syncRail() {
-  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railChart" ${currentView === "chart" ? 'aria-current="true"' : ""}>
+  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railRoster" ${currentView === "roster" ? 'aria-current="true"' : ""}>
+      <span class="dot"></span>가수 명단
+    </button></li>` + `<li class="rail-all"><button class="rail-item" id="railChart" ${currentView === "chart" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>인기차트
     </button></li>` + `<li class="rail-all"><button class="rail-item" id="railAll" ${currentView === "all" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>전체 곡 <span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${PLAYABLE.length}</span>
@@ -1142,6 +1236,7 @@ document.addEventListener("click", (e) => {
   }
   if (e.target.closest("#showAll") || e.target.closest("#railAll")) { $("#q").value = ""; renderAll(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railChart") || e.target.closest("#showChart")) { $("#q").value = ""; renderChart(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if (e.target.closest("#railRoster") || e.target.closest("#showRoster")) { $("#q").value = ""; renderRoster(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   const rtab = e.target.closest(".tab[data-range]");
   if (rtab) { chartRange = rtab.dataset.range; renderChart(); return; }
   const rank = e.target.closest(".rank");
