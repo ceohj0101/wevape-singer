@@ -1,4 +1,4 @@
-const CACHE = "wevape-singer-v6";
+const CACHE = "wevape-singer-v7";
 const CORE = ["./manifest.json", "./icon.png", "./icon-192.png"];
 
 self.addEventListener("install", (e) => {
@@ -15,6 +15,7 @@ self.addEventListener("fetch", (e) => {
   const req = e.request;
   const url = new URL(req.url);
   if (req.method !== "GET" || url.origin !== location.origin) return;
+  if (url.pathname.endsWith("plays.json") || url.pathname.endsWith("tracks.json")) return;  /* 집계 파일은 항상 최신으로 */
 
   const isPage = req.mode === "navigate" || url.pathname.endsWith("/") || url.pathname.endsWith("index.html");
 

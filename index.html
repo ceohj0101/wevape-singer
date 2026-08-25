@@ -960,19 +960,20 @@ const PLAYABLE = QUEUE.filter(t => t.src);
    local  : 이 기기 백업 (서버가 안 될 때만 사용)          ---- */
 const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-chart" };
 const pad2 = (n) => String(n).padStart(2, "0");
-function isoWeek(d) {
-  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+/* 접속 국가와 무관하게 한국시간(KST) 기준으로 집계 — 깃허브 액션과 키를 맞추기 위함 */
+const kst = (d) => new Date((d ? d.getTime() : Date.now()) + 9 * 36e5);
+function isoWeek(k) {
+  const t = new Date(Date.UTC(k.getUTCFullYear(), k.getUTCMonth(), k.getUTCDate()));
   t.setUTCDate(t.getUTCDate() - ((t.getUTCDay() + 6) % 7) + 3);
   const y = t.getUTCFullYear();
   const jan4 = new Date(Date.UTC(y, 0, 4));
-  const w = 1 + Math.round(((t - jan4) / 864e5 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
-  return y + pad2(w);
+  return y + pad2(1 + Math.round(((t - jan4) / 864e5 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7));
 }
 function bucket(range, d) {
-  d = d || new Date();
-  if (range === "day") return "d" + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate());
-  if (range === "week") return "w" + isoWeek(d);
-  if (range === "month") return "m" + d.getFullYear() + pad2(d.getMonth() + 1);
+  const k = kst(d);
+  if (range === "day") return "d" + k.getUTCFullYear() + pad2(k.getUTCMonth() + 1) + pad2(k.getUTCDate());
+  if (range === "week") return "w" + isoWeek(k);
+  if (range === "month") return "m" + k.getUTCFullYear() + pad2(k.getUTCMonth() + 1);
   return "all";
 }
 const ckeyAt = (range, trackKey, d) => bucket(range, d) + "-" + String(trackKey).replace(/[^a-zA-Z0-9_-]/g, "-");
@@ -1013,6 +1014,20 @@ function startChartPoll() {
     loadCounts(chartRange);
   }, 15000);
 }
+/* 깃허브 저장소에 커밋된 집계 파일(plays.json)을 기준값으로 읽음 */
+let playsStamp = "";
+function loadPlaysFile() {
+  return fetch("plays.json?t=" + Date.now(), { cache: "no-store" })
+    .then(r => (r.ok ? r.json() : null))
+    .then(j => {
+      if (!j || !j.counts) return;
+      playsStamp = j.updated || "";
+      Object.keys(j.counts).forEach(k => { if ((REMOTE[k] || 0) < j.counts[k]) REMOTE[k] = j.counts[k]; });
+      refreshChartRows();
+    })
+    .catch(() => {});
+}
+
 function refreshChartRows() {
   if (currentView !== "chart") return;
   const box = document.getElementById("rankList");
@@ -1327,7 +1342,12 @@ function chartNoteHtml() {
               : "이 링크에 접속한 모든 사람의 재생수를 합산합니다";
   const now = new Date();
   const hhmm = String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0");
-  return `집계 기준 <b>${RANGE_LABEL[chartRange]}</b> · ${RANGE_DESC[chartRange]} · 전체 누적 ${total}회<br>${state} · 15초마다 자동 갱신 (${hhmm} 기준)`;
+  let saved = "";
+  if (playsStamp) {
+    const d = kst(new Date(playsStamp));
+    saved = ` · 깃허브 저장 ${pad2(d.getUTCMonth() + 1)}/${pad2(d.getUTCDate())} ${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}`;
+  }
+  return `집계 기준 <b>${RANGE_LABEL[chartRange]}</b> · ${RANGE_DESC[chartRange]} (한국시간) · 전체 누적 ${total}회<br>${state} · 15초 자동 갱신 (${hhmm})${saved}`;
 }
 
 function renderChart() {
@@ -1345,6 +1365,7 @@ function renderChart() {
     <ul class="ranks" id="rankList">${chartRowsHtml()}</ul>
     <p class="chart-note" id="chartNote">${chartNoteHtml()}</p>`;
   syncRail();
+  loadPlaysFile();
   loadCounts(chartRange);
   startChartPoll();
 }
@@ -1753,6 +1774,7 @@ if ("serviceWorker" in navigator) {
 
 setArm(null);
 renderHome();
+loadPlaysFile();
 setTimeout(backfillOnce, 1500);   /* 예전 기록 서버로 복구 */
 </script>
 </body>
