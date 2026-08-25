@@ -975,7 +975,8 @@ function bucket(range, d) {
   if (range === "month") return "m" + d.getFullYear() + pad2(d.getMonth() + 1);
   return "all";
 }
-const ckey = (range, trackKey) => bucket(range) + "-" + String(trackKey).replace(/[^a-zA-Z0-9_-]/g, "-");
+const ckeyAt = (range, trackKey, d) => bucket(range, d) + "-" + String(trackKey).replace(/[^a-zA-Z0-9_-]/g, "-");
+const ckey = (range, trackKey) => ckeyAt(range, trackKey, null);
 const RANGE_ALL = ["day", "week", "month", "all"];
 const REMOTE = {};
 let remoteState = "idle";
@@ -1018,6 +1019,23 @@ function refreshChartRows() {
   if (box) box.innerHTML = chartRowsHtml();
   const note = document.getElementById("chartNote");
   if (note) note.innerHTML = chartNoteHtml();
+}
+
+/* 예전 빌드에서 이 기기에만 쌓였던 재생 기록을 서버로 한 번 올려보냄 */
+const BACKFILL_KEY = "wevape-singer-backfilled-v1";
+function backfillOnce() {
+  try {
+    if (localStorage.getItem(BACKFILL_KEY)) return;
+    const l = readLog().slice(-300);
+    localStorage.setItem(BACKFILL_KEY, String(l.length));
+    if (!l.length) return;
+    const valid = {};
+    PLAYABLE.forEach(t => { valid[t.key] = 1; });
+    l.filter(([k]) => valid[k]).forEach(([k, t], i) => {
+      const d = new Date(t);
+      setTimeout(() => { RANGE_ALL.forEach(r => cHit(ckeyAt(r, k, d))); }, i * 300);
+    });
+  } catch (e) {}
 }
 
 const PLAYLOG_KEY = "wevape-singer-plays";
@@ -1735,6 +1753,7 @@ if ("serviceWorker" in navigator) {
 
 setArm(null);
 renderHome();
+setTimeout(backfillOnce, 1500);   /* 예전 기록 서버로 복구 */
 </script>
 </body>
 </html>
