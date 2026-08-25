@@ -994,7 +994,9 @@ function cHit(k) {
 }
 function loadCounts(range) {
   remoteState = "loading";
-  const ks = PLAYABLE.map(t => ckey(range, t.key));
+  const rs = range === "all" ? ["all"] : [range, "all"];
+  const ks = [];
+  rs.forEach(r => PLAYABLE.forEach(t => ks.push(ckey(r, t.key))));
   return Promise.all(ks.map(cGet)).then(vals => {
     let ok = false;
     ks.forEach((k, i) => { if (vals[i] !== null) { REMOTE[k] = Math.max(REMOTE[k] || 0, vals[i]); ok = true; } });
