@@ -559,7 +559,8 @@ svg[hidden]{display:none}
    ---------------------------------------------------------------------
    artist  : id(영문·숫자), name(가수명), tag(장르), bio(소개)
              color/color2 = 앨범 배경 그라디언트 색
-             photo = "파일명.jpg"  (비워두면 색 그라디언트로 표시)
+             photo = 가수 프로필 사진 (가수 명단·홈 카드 고정. 앨범 추가해도 안 바뀜)
+   album   : cover = 그 앨범 자켓 (그 앨범 수록곡에만 적용)
    track   : title(곡명), src="파일명.mp3" (비워두면 데모 사운드로 재생)
              duration = 초 단위(선택 · 비워두면 재생할 때 자동으로 읽음)
    ===================================================================== */
@@ -577,7 +578,7 @@ const ARTISTS = [
       "첫 번째는 사랑, 두 번째는 사람, 세 번째는 밀린 업무. 순서까지 정해두고 사는 남자다. 내일 할까 물으면 안 돼 안 돼, 다음에 할까 물어도 안 돼 안 돼. 오늘 할 건 오늘 하고 미련 없이 털어내는 것이 그의 유일한 규칙이다.",
       "그리고 2025년, 그는 바다를 건넜다. 일본 호스트바의 밤을 걸으면서도 매일 뮤직뱅크를 틀어놓았고, 그렇게 꽂힌 한국 힙합을 안고 돌아왔다. 트로트 신사가 마이크를 고쳐 잡은 이유는 하나다. 여기도 좀 정리가 필요해서."
     ],
-    color: "#C9A227", color2: "#16223F", photo: "traffic-clear.jpg",
+    color: "#C9A227", color2: "#16223F", photo: "hyunjin.jpg",
     albums: [
       {
         title: "교통정리", en: "TRAFFIC CLEAR", year: "2025", cat: "HKR-2501", cover: "traffic-clear.jpg",
@@ -664,7 +665,7 @@ const ARTISTS = [
         ]
       },
       {
-        title: "정리할게요", en: "", year: "1987", cat: "AC-0258", cover: "hyunjin.jpg",
+        title: "정리할게요", en: "", year: "1987", cat: "AC-0258", cover: "jeongri-halkkeyo.jpg",
         note: "정규 1집. 트로트 신사 장현진의 데뷔작.",
         tracks: [
           { title: "정리할게요", src: "jeongri-halkkeyo.mp3", duration: 199, tag: "타이틀", lyrics: `
@@ -954,7 +955,61 @@ ARTISTS.forEach((a) => a.albums.forEach((al, ai) => al.tracks.forEach((t, ti) =>
 ARTISTS.forEach(a => { a.trackCount = a.albums.reduce((n, al) => n + al.tracks.length, 0); });
 const PLAYABLE = QUEUE.filter(t => t.src);
 
-/* ---- 재생 기록 (이 기기에 저장) ---- */
+/* ---- 재생 집계 ----
+   REMOTE : 전 세계 접속자 합산 (공용 카운터 서버)
+   local  : 이 기기 백업 (서버가 안 될 때만 사용)          ---- */
+const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-hkr" };
+const pad2 = (n) => String(n).padStart(2, "0");
+function isoWeek(d) {
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  t.setUTCDate(t.getUTCDate() - ((t.getUTCDay() + 6) % 7) + 3);
+  const y = t.getUTCFullYear();
+  const jan4 = new Date(Date.UTC(y, 0, 4));
+  const w = 1 + Math.round(((t - jan4) / 864e5 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+  return y + pad2(w);
+}
+function bucket(range, d) {
+  d = d || new Date();
+  if (range === "day") return "d" + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate());
+  if (range === "week") return "w" + isoWeek(d);
+  if (range === "month") return "m" + d.getFullYear() + pad2(d.getMonth() + 1);
+  return "all";
+}
+const ckey = (range, trackKey) => bucket(range) + "-" + String(trackKey).replace(/[^a-zA-Z0-9_-]/g, "-");
+const RANGE_ALL = ["day", "week", "month", "all"];
+const REMOTE = {};
+let remoteState = "idle";
+
+function cGet(k) {
+  return fetch(CT.base + "/get/" + CT.ns + "/" + k, { cache: "no-store" })
+    .then(r => (r.status === 404 ? { value: 0 } : r.json()))
+    .then(j => (j.value | 0))
+    .catch(() => null);
+}
+function cHit(k) {
+  fetch(CT.base + "/hit/" + CT.ns + "/" + k, { cache: "no-store" })
+    .then(r => r.json())
+    .then(j => { if (typeof j.value === "number") { REMOTE[k] = j.value; refreshChartRows(); } })
+    .catch(() => {});
+}
+function loadCounts(range) {
+  remoteState = "loading";
+  const ks = PLAYABLE.map(t => ckey(range, t.key));
+  return Promise.all(ks.map(cGet)).then(vals => {
+    let ok = false;
+    ks.forEach((k, i) => { if (vals[i] !== null) { REMOTE[k] = Math.max(REMOTE[k] || 0, vals[i]); ok = true; } });
+    remoteState = ok ? "ok" : "fail";
+    refreshChartRows();
+  });
+}
+function refreshChartRows() {
+  if (currentView !== "chart") return;
+  const box = document.getElementById("rankList");
+  if (box) box.innerHTML = chartRowsHtml();
+  const note = document.getElementById("chartNote");
+  if (note) note.innerHTML = chartNoteHtml();
+}
+
 const PLAYLOG_KEY = "wevape-singer-plays";
 function readLog() {
   try { const v = JSON.parse(localStorage.getItem(PLAYLOG_KEY) || "[]"); return Array.isArray(v) ? v : []; }
@@ -965,15 +1020,25 @@ function writeLog(list) {
 }
 function logPlay(key) {
   const l = readLog(); l.push([key, Date.now()]); writeLog(l);
-  if (currentView === "chart") { const box = document.getElementById("rankList"); if (box) box.innerHTML = chartRowsHtml(); }
+  RANGE_ALL.forEach(r => {
+    const k = ckey(r, key);
+    REMOTE[k] = (REMOTE[k] || 0) + 1;   /* 화면에 즉시 반영 */
+    cHit(k);                            /* 서버에 누적 */
+  });
+  refreshChartRows();
 }
-const RANGES = { day: 1, week: 7, month: 30 };
-const RANGE_LABEL = { day: "일간", week: "주간", month: "월간" };
+const RANGE_LABEL = { day: "일간", week: "주간", month: "월간", all: "전체 누적" };
+const RANGE_DESC = { day: "오늘 하루", week: "이번 주(월~일)", month: "이번 달", all: "서비스 시작 이후 전체" };
+function localCount(range, key) {
+  const b = bucket(range); let n = 0;
+  readLog().forEach(([k, t]) => { if (k === key && bucket(range, new Date(t)) === b) n++; });
+  return n;
+}
+function countOf(range, key) {
+  return Math.max(REMOTE[ckey(range, key)] || 0, localCount(range, key));
+}
 function rankFor(range) {
-  const since = Date.now() - RANGES[range] * 864e5;
-  const cnt = {};
-  readLog().forEach(([k, t]) => { if (t >= since) cnt[k] = (cnt[k] || 0) + 1; });
-  return PLAYABLE.map(t => ({ t, n: cnt[t.key] || 0 })).sort((a, b) => b.n - a.n || a.t.index - b.t.index);
+  return PLAYABLE.map(t => ({ t, n: countOf(range, t.key) })).sort((a, b) => b.n - a.n || a.t.index - b.t.index);
 }
 
 $("#labelName").textContent = LABEL.name;
@@ -1227,9 +1292,16 @@ function chartRowsHtml() {
     </li>`).join("");
 }
 
+function chartNoteHtml() {
+  const total = PLAYABLE.reduce((n, t) => n + countOf("all", t.key), 0);
+  const state = remoteState === "loading" ? "집계 불러오는 중…"
+              : remoteState === "fail" ? "서버 연결 실패 — 이 기기 기록만 표시 중"
+              : "이 링크에 접속한 모든 사람의 재생수를 합산합니다";
+  return `집계 기준 <b>${RANGE_LABEL[chartRange]}</b> · ${RANGE_DESC[chartRange]} · 전체 누적 ${total}회<br>${state}`;
+}
+
 function renderChart() {
   currentArtist = null; currentView = "chart";
-  const total = readLog().length;
   view.innerHTML = `
     <p class="eyebrow">Popularity chart</p>
     <div class="chart-head"><h1 class="big">위베이프 광대 인기차트</h1></div>
@@ -1238,11 +1310,12 @@ function renderChart() {
       <button class="tab" data-range="day" role="tab" aria-selected="${chartRange === "day"}">일간</button>
       <button class="tab" data-range="week" role="tab" aria-selected="${chartRange === "week"}">주간</button>
       <button class="tab" data-range="month" role="tab" aria-selected="${chartRange === "month"}">월간</button>
+      <button class="tab" data-range="all" role="tab" aria-selected="${chartRange === "all"}">전체</button>
     </div>
     <ul class="ranks" id="rankList">${chartRowsHtml()}</ul>
-    <p class="chart-note">누적 재생 ${total}회 · 집계 기준 ${RANGE_LABEL[chartRange]}(최근 ${RANGES[chartRange]}일)<br>
-      재생 기록은 지금 보고 있는 기기에 저장됩니다. 방문자 전체 합산 집계로 바꾸려면 별도 서버 연결이 필요합니다.</p>`;
+    <p class="chart-note" id="chartNote">${chartNoteHtml()}</p>`;
   syncRail();
+  loadCounts(chartRange);
 }
 
 function renderPlayer(t) {
@@ -1411,7 +1484,8 @@ function play(track) {
     const rec = $("#record");
     rec.style.setProperty("--label-a", a.color);
     const art = $("#recordArt");
-    if (a.photo) { art.src = a.photo; art.hidden = false; } else { art.hidden = true; art.removeAttribute("src"); }
+    const cv = track.album && track.album.cover;
+    if (cv) { art.src = cv; art.hidden = false; } else { art.hidden = true; art.removeAttribute("src"); }
     $("#durTime").textContent = track.duration ? fmt(track.duration) : "0:00";
   }
   const wasPlaying = !au.paused;
