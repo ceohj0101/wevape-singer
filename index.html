@@ -854,6 +854,7 @@ function writeLog(list) {
 }
 function logPlay(key) {
   const l = readLog(); l.push([key, Date.now()]); writeLog(l);
+  if (currentView === "chart") { const box = document.getElementById("rankList"); if (box) box.innerHTML = chartRowsHtml(); }
 }
 const RANGES = { day: 1, week: 7, month: 30 };
 const RANGE_LABEL = { day: "일간", week: "주간", month: "월간" };
@@ -1274,6 +1275,7 @@ function play(track) {
   if (!track.src) return;
   if (!sameTrack) {
     cur = track;
+    logPlay(track.key);
     au.src = track.src;
     au.load();
     const a = track.artist;
@@ -1286,10 +1288,8 @@ function play(track) {
     $("#durTime").textContent = track.duration ? fmt(track.duration) : "0:00";
   }
   const wasPlaying = !au.paused;
-  au.play().then(() => {
-    if (!wasPlaying || !sameTrack) needleDrop(au.currentTime / (au.duration || 1));
-    if (!sameTrack) logPlay(track.key);
-  }).catch(() => {});
+  au.play().catch(() => {});
+  if (!wasPlaying || !sameTrack) setTimeout(() => needleDrop(au.currentTime / (au.duration || 1)), 60);
   renderPlayer(track);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -1297,7 +1297,7 @@ function play(track) {
 function toggle() {
   if (!cur) return play(PLAYABLE[0]);
   ensureAudioGraph();
-  if (au.paused) au.play().then(() => needleDrop(au.currentTime / (au.duration || 1))).catch(() => {});
+  if (au.paused) { au.play().catch(() => {}); setTimeout(() => needleDrop(au.currentTime / (au.duration || 1)), 60); }
   else au.pause();
 }
 
