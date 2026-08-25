@@ -958,7 +958,7 @@ const PLAYABLE = QUEUE.filter(t => t.src);
 /* ---- 재생 집계 ----
    REMOTE : 전 세계 접속자 합산 (공용 카운터 서버)
    local  : 이 기기 백업 (서버가 안 될 때만 사용)          ---- */
-const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-hkr" };
+const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-chart" };
 const pad2 = (n) => String(n).padStart(2, "0");
 function isoWeek(d) {
   const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -1003,6 +1003,14 @@ function loadCounts(range) {
     remoteState = ok ? "ok" : "fail";
     refreshChartRows();
   });
+}
+let chartTimer = null;
+function startChartPoll() {
+  if (chartTimer) clearInterval(chartTimer);
+  chartTimer = setInterval(() => {
+    if (currentView !== "chart") { clearInterval(chartTimer); chartTimer = null; return; }
+    loadCounts(chartRange);
+  }, 15000);
 }
 function refreshChartRows() {
   if (currentView !== "chart") return;
@@ -1299,7 +1307,9 @@ function chartNoteHtml() {
   const state = remoteState === "loading" ? "집계 불러오는 중…"
               : remoteState === "fail" ? "서버 연결 실패 — 이 기기 기록만 표시 중"
               : "이 링크에 접속한 모든 사람의 재생수를 합산합니다";
-  return `집계 기준 <b>${RANGE_LABEL[chartRange]}</b> · ${RANGE_DESC[chartRange]} · 전체 누적 ${total}회<br>${state}`;
+  const now = new Date();
+  const hhmm = String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0");
+  return `집계 기준 <b>${RANGE_LABEL[chartRange]}</b> · ${RANGE_DESC[chartRange]} · 전체 누적 ${total}회<br>${state} · 15초마다 자동 갱신 (${hhmm} 기준)`;
 }
 
 function renderChart() {
@@ -1318,6 +1328,7 @@ function renderChart() {
     <p class="chart-note" id="chartNote">${chartNoteHtml()}</p>`;
   syncRail();
   loadCounts(chartRange);
+  startChartPoll();
 }
 
 function renderPlayer(t) {
