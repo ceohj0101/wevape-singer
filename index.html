@@ -269,6 +269,17 @@ svg[hidden]{display:none}
 .hint{font-size:12px;color:var(--faint);margin-top:26px;border-top:1px solid var(--line);padding-top:16px;max-width:62ch;line-height:1.75}
 .hint code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;background:var(--surface-2);padding:1px 5px;border-radius:3px}
 
+/* ---------- 앨범 블록 ---------- */
+.album{margin-top:40px;animation:riseSoft .45s ease-out backwards;animation-delay:calc(var(--i,0)*110ms)}
+.album-head{display:flex;gap:22px;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap}
+.album-cover{width:148px;height:148px;flex:none;border-radius:5px;overflow:hidden;box-shadow:var(--sleeve-shadow);background:var(--surface-2)}
+.album-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.album-title{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;font-size:clamp(22px,3vw,32px);
+  line-height:1.15;margin:2px 0 4px;letter-spacing:-.02em}
+.album-en{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.2em;color:var(--brass);margin:0 0 10px}
+.album-note{font-size:13.5px;color:var(--dim);line-height:1.8;margin:0 0 12px;max-width:58ch}
+@media (max-width:620px){ .album-cover{width:104px;height:104px} .album-head{gap:14px} }
+
 /* ---------- 가수 소개 스토리 ---------- */
 .note{border-top:1px solid var(--line);margin-top:38px;padding-top:26px}
 .note-h{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);font-weight:600;margin:0 0 18px}
@@ -556,8 +567,7 @@ const LABEL = { name: "WEVAPE SINGER", sub: "HKR RECORDS · AI 트로트 레이�
 
 const ARTISTS = [
   {
-    id: "hyunjin", name: "장현진", tag: "트로트 신사",
-    album: "정리할게요", year: "1987", cat: "AC-0258",
+    id: "hyunjin", name: "장현진", tag: "트로트 신사 → 트랩",
     bio: "인생도, 사랑도, 업무도, 사람도. 속 시원하게 다 정리해 드립니다.",
     hook: "그럴 수 있어요. 그리고 정리할게요.",
     quote: "갈 사람 가고! 올 사람 오고! 남을 사람 남아라~",
@@ -565,11 +575,99 @@ const ARTISTS = [
       "그의 노래는 언제나 같은 자리에서 시작한다. 어어어어~ 하고 길게 뜸을 들이다가, 자아~ 하고 숨을 고르고, 갑니다아아아 하고 발을 뗀다. 무대에서든 사무실에서든 이 세 마디가 나오면 무언가가 끝나고 무언가가 시작된다는 뜻이다.",
       "「정리할게요」는 원래 노래로 만들 생각이 없던 말버릇이었다. 이런 사람 저런 사람 다 그럴 수 있다고 넘겨주다가, 어느 날 좋으면 좋다 싫으면 싫다 딱 잘라 말하기로 마음먹은 날부터 그는 정리의 사람이 되었다.",
       "첫 번째는 사랑, 두 번째는 사람, 세 번째는 밀린 업무. 순서까지 정해두고 사는 남자다. 내일 할까 물으면 안 돼 안 돼, 다음에 할까 물어도 안 돼 안 돼. 오늘 할 건 오늘 하고 미련 없이 털어내는 것이 그의 유일한 규칙이다.",
-      "그래서 무대 위 장현진은 늘 앞을 본다. 뒤돌아보지 마, 이리저리 고민 말고. 트로트 신사라는 별명은 옷차림 때문이 아니라, 끝낼 때를 아는 태도에서 붙었다."
+      "그리고 2025년, 그는 바다를 건넜다. 일본 호스트바의 밤을 걸으면서도 매일 뮤직뱅크를 틀어놓았고, 그렇게 꽂힌 한국 힙합을 안고 돌아왔다. 트로트 신사가 마이크를 고쳐 잡은 이유는 하나다. 여기도 좀 정리가 필요해서."
     ],
-    color: "#C9A227", color2: "#16223F", photo: "hyunjin.jpg",
-    tracks: [
-      { title: "정리할게요", src: "jeongri-halkkeyo.mp3", duration: 199, tag: "타이틀", lyrics: `
+    color: "#C9A227", color2: "#16223F", photo: "traffic-clear.jpg",
+    albums: [
+      {
+        title: "교통정리", en: "TRAFFIC CLEAR", year: "2025", cat: "HKR-2501", cover: "traffic-clear.jpg",
+        note: "정규 2집. 일본 호스트바의 길을 걷기 시작한 장현진이, 한국이 그리워 매일 뮤직뱅크를 보다 K-힙합에 꽂혀버렸다. 결국 호빠 고객을 만족시키기 위해 내가 이 세계를 정리해버리겠다는 포부를 담아 낸 랩 앨범.",
+        tracks: [
+          { title: "교통정리", src: "gyotong-jeongri.mp3", duration: 270, tag: "타이틀", lyrics: `
+[Verse 1]
+차려입은 말들 사이
+의미 없는 인사들이 쌓여
+고개 숙인 마음보다
+고개 숙이는 법을 먼저 배워
+빛나는 것은 말뿐이고
+비어 있는 건 속인데
+왜 우리는 비어 있음 위에
+금빛 천을 덮어 놓을까
+
+[Pre-Chorus]
+묻지 않는 질문들
+대답 없는 존중
+서로를 위한 예라 말하며
+서로를 보지 않네
+
+[Chorus]
+허래허식의 숲을 지나
+나는 나를 잃지 않으려 해
+겉은 예를 입고 있지만
+속은 공처럼 가벼운데
+차라리 무례한 진심이
+단정한 거짓보다 나아
+침묵 속에 남은 한 줄
+그게 나의 예법이야
+
+[Verse 2]
+잔을 채운 건 체면이고
+비운 건 마음인데
+우리는 왜 늘 넘치도록
+비어 있음을 숨길까
+의식처럼 반복되는
+의미 없는 약속들
+말이 많아질수록
+진실은 작아지네
+
+[Chorus]
+허래허식의 숲을 지나
+나는 나를 속이지 않으려 해
+형식은 늘 완벽한데
+존재는 빠져 있네
+차라리 서툰 침묵이
+잘 다듬은 말보다 깊어
+아무도 보지 않는 곳에서
+나는 나에게 인사해
+
+[Bridge]
+공자는 예를 말했지만
+비어 있음을 알았고
+노자는 말하지 말라 했지
+이미 넘치고 있으니
+
+[Last Chorus]
+허래허식을 벗어 두고
+오늘은 가볍게 서 있을래
+겉을 꾸미지 않아도
+존재는 이미 충분해
+보여주기 위해 사는 삶과
+살기 위해 숨 쉬는 삶
+그 사이에 남은 이 한 걸음
+그게 나의 철학이야
+
+[Outro]
+예는 남을 위한 옷
+진심은 나를 위한 숨
+나는 오늘
+숨 쉬는 쪽을 택해
+` },
+          { title: "나 같은 남자 어때요", src: "", duration: 0, tag: "" },
+          { title: "찌프차 로망", src: "", duration: 0, tag: "" },
+          { title: "아사히 한잔", src: "", duration: 0, tag: "" },
+          { title: "눈 치진 게 매력이야", src: "", duration: 0, tag: "" },
+          { title: "무스는 진하게", src: "", duration: 0, tag: "" },
+          { title: "퇴근후 자유", src: "", duration: 0, tag: "" },
+          { title: "오늘도 FLEX", src: "", duration: 0, tag: "" },
+          { title: "다시 또 달린다", src: "", duration: 0, tag: "" },
+          { title: "교통정리 (Inst.)", src: "", duration: 0, tag: "Inst." }
+        ]
+      },
+      {
+        title: "정리할게요", en: "", year: "1987", cat: "AC-0258", cover: "hyunjin.jpg",
+        note: "정규 1집. 트로트 신사 장현진의 데뷔작.",
+        tracks: [
+          { title: "정리할게요", src: "jeongri-halkkeyo.mp3", duration: 199, tag: "타이틀", lyrics: `
 [Intro]
 어어어어~~~~
 자아~~~~
@@ -662,18 +760,19 @@ const ARTISTS = [
 우리 모두 소리 질러!
 정! 리! 할! 게! 요!
 ` },
-      { title: "그럴수있어요", src: "", duration: 207, tag: "" },
-      { title: "인생은", src: "", duration: 209, tag: "" },
-      { title: "어어~", src: "", duration: 178, tag: "" },
-      { title: "자~", src: "", duration: 168, tag: "" },
-      { title: "사랑도 정리할게요", src: "", duration: 219, tag: "" },
-      { title: "업무도 정리할게요", src: "", duration: 212, tag: "" },
-      { title: "사람도 정리할게요", src: "", duration: 221, tag: "" }
+          { title: "그럴수있어요", src: "", duration: 207, tag: "" },
+          { title: "인생은", src: "", duration: 209, tag: "" },
+          { title: "어어~", src: "", duration: 178, tag: "" },
+          { title: "자~", src: "", duration: 168, tag: "" },
+          { title: "사랑도 정리할게요", src: "", duration: 219, tag: "" },
+          { title: "업무도 정리할게요", src: "", duration: 212, tag: "" },
+          { title: "사람도 정리할게요", src: "", duration: 221, tag: "" }
+        ]
+      }
     ]
   },
   {
     id: "younggeun", name: "차영근", tag: "트로트 쾌남",
-    album: "피곤하거든~", year: "1987", cat: "AC-0258",
     bio: "이 남자, 노래도 근본. 한 번 들으면 잊을 수 없는 목소리.",
     hook: "피곤하거든. 그래도 놀아야 하거든.",
     quote: "노는 게 귀찮으면 죽어야지요",
@@ -684,8 +783,12 @@ const ARTISTS = [
       "트로트 쾌남이라는 이름은 그렇게 붙었다. 잘생겨서가 아니라, 피곤한 얼굴로도 끝까지 자리를 지키는 사람이라서."
     ],
     color: "#E0B24A", color2: "#12203A", photo: "younggeun.jpg",
-    tracks: [
-      { title: "영차거든", src: "yeongcha-geodeun.mp3", duration: 82, tag: "타이틀", lyrics: `
+    albums: [
+      {
+        title: "피곤하거든~", en: "", year: "1987", cat: "AC-0258", cover: "younggeun.jpg",
+        note: "트로트 쾌남 차영근의 대표작.",
+        tracks: [
+          { title: "영차거든", src: "yeongcha-geodeun.mp3", duration: 82, tag: "타이틀", lyrics: `
 아으~~~~ 피곤하거든
 영차! 영차! 쉽지 않거든
 어디 살아? 몇 살?
@@ -711,19 +814,20 @@ const ARTISTS = [
 어디 살아? 몇 살?
 영차! 영차! 영차거든!
 ` },
-      { title: "피곤하거든~", src: "", duration: 205, tag: "" },
-      { title: "어디사는 몇살?", src: "", duration: 198, tag: "" },
-      { title: "아으~", src: "", duration: 187, tag: "" },
-      { title: "얼굴한번 봐요", src: "", duration: 216, tag: "" },
-      { title: "바빠요?", src: "", duration: 192, tag: "" },
-      { title: "논란이있거든~", src: "", duration: 208, tag: "" },
-      { title: "근본이거든~", src: "", duration: 200, tag: "" },
-      { title: "이야기", src: "", duration: 178, tag: "" }
+          { title: "피곤하거든~", src: "", duration: 205, tag: "" },
+          { title: "어디사는 몇살?", src: "", duration: 198, tag: "" },
+          { title: "아으~", src: "", duration: 187, tag: "" },
+          { title: "얼굴한번 봐요", src: "", duration: 216, tag: "" },
+          { title: "바빠요?", src: "", duration: 192, tag: "" },
+          { title: "논란이있거든~", src: "", duration: 208, tag: "" },
+          { title: "근본이거든~", src: "", duration: 200, tag: "" },
+          { title: "이야기", src: "", duration: 178, tag: "" }
+        ]
+      }
     ]
   },
   {
     id: "hyungjin", name: "김형진", tag: "트로트 늘보",
-    album: "'85 트로트 늘보 제1집", year: "1985", cat: "HKR-8805",
     bio: "퇴근하고 얼음장같은 시원한 아사히 맥주 한 모금. 인생 뭐 있나.",
     hook: "눈은 좀 처졌어도, 수트핏은 안 처졌지.",
     quote: "내 쪼대로 사는게 내멋 아니겠소",
@@ -734,8 +838,12 @@ const ARTISTS = [
       "사람들은 왜 그렇게 사느냐고 묻는다. 그는 늘 같은 대답을 한다. 무스도 내가 고르고 맥주도 내가 고르고 차도 내가 고르지. 눈은 조금 처졌어도 마음만은 뜨겁소. 나 같은 남자 어때요."
     ],
     color: "#D9A24B", color2: "#4A2A18", photo: "hyungjin.jpg",
-    tracks: [
-      { title: "나 같은 남자 어때요", src: "na-gateun-namja.mp3", duration: 276, tag: "타이틀", lyrics: `
+    albums: [
+      {
+        title: "'85 트로트 늘보 제1집", en: "", year: "1985", cat: "HKR-8805", cover: "hyungjin.jpg",
+        note: "트로트의 새로운 바람, 김형진의 첫 정규.",
+        tracks: [
+          { title: "나 같은 남자 어때요", src: "na-gateun-namja.mp3", duration: 276, tag: "타이틀", lyrics: `
 [Intro]
 눈쳐진 남자 어때요
 아침 일곱 시
@@ -819,14 +927,16 @@ const ARTISTS = [
 나 같은 남자 어때요
 나 같은 남자 어때요
 ` },
-      { title: "퇴근후 시원한 맥주 한모금", src: "", duration: 0, tag: "SIDE A" },
-      { title: "사랑은 인천 수원도 동네 슈퍼로 만들어부러", src: "", duration: 0, tag: "SIDE A" },
-      { title: "내가 가는길이 노숙", src: "", duration: 0, tag: "SIDE A" },
-      { title: "캠프 스타일", src: "", duration: 0, tag: "SIDE B" },
-      { title: "단골은 이맛이여", src: "", duration: 0, tag: "SIDE B" },
-      { title: "야~ 인생 뭐 있나", src: "", duration: 0, tag: "SIDE B" },
-      { title: "이야~ 좋구나", src: "", duration: 0, tag: "SIDE B" },
-      { title: "눈치 보지 말고 살아", src: "", duration: 0, tag: "보너스" }
+          { title: "퇴근후 시원한 맥주 한모금", src: "", duration: 0, tag: "SIDE A" },
+          { title: "사랑은 인천 수원도 동네 슈퍼로 만들어부러", src: "", duration: 0, tag: "SIDE A" },
+          { title: "내가 가는길이 노숙", src: "", duration: 0, tag: "SIDE A" },
+          { title: "캠프 스타일", src: "", duration: 0, tag: "SIDE B" },
+          { title: "단골은 이맛이여", src: "", duration: 0, tag: "SIDE B" },
+          { title: "야~ 인생 뭐 있나", src: "", duration: 0, tag: "SIDE B" },
+          { title: "이야~ 좋구나", src: "", duration: 0, tag: "SIDE B" },
+          { title: "눈치 보지 말고 살아", src: "", duration: 0, tag: "보너스" }
+        ]
+      }
     ]
   }
 ];
@@ -838,9 +948,10 @@ const view = $("#view");
 
 /* ---- 곡 목록 평탄화 ---- */
 const QUEUE = [];
-ARTISTS.forEach((a) => a.tracks.forEach((t, ti) => {
-  QUEUE.push({ ...t, artist: a, key: a.id + ":" + ti, index: QUEUE.length });
-}));
+ARTISTS.forEach((a) => a.albums.forEach((al, ai) => al.tracks.forEach((t, ti) => {
+  QUEUE.push({ ...t, artist: a, album: al, key: a.id + ":" + ai + ":" + ti, index: QUEUE.length });
+})));
+ARTISTS.forEach(a => { a.trackCount = a.albums.reduce((n, al) => n + al.tracks.length, 0); });
 const PLAYABLE = QUEUE.filter(t => t.src);
 
 /* ---- 재생 기록 (이 기기에 저장) ---- */
@@ -922,7 +1033,7 @@ function renderHome() {
               <span class="sleeve" style="background:${grad(a)}">${sleeveInner(a)}</span>
             </span>
             <p class="card-name">${esc(a.name)}</p>
-            <p class="card-meta">${esc(a.tag)} · 「${esc(a.album)}」 ${a.tracks.length}곡</p>
+            <p class="card-meta">${esc(a.tag)} · 앨범 ${a.albums.length}장 · ${a.trackCount}곡</p>
           </button>
         </li>`).join("")}
     </ul>
@@ -976,8 +1087,8 @@ function renderRoster() {
               <span class="roster-bio">${esc(a.bio)}</span>
               <span class="roster-meta">
                 <span class="pill">${esc(a.tag)}</span>
-                <span class="pill">「${esc(a.album)}」 ${esc(a.year)}</span>
-                <span class="pill">${a.tracks.length}곡</span>
+                <span class="pill">앨범 ${a.albums.length}장</span>
+                <span class="pill">${a.trackCount}곡</span>
               </span>
             </span>
           </button>
@@ -986,12 +1097,31 @@ function renderRoster() {
   syncRail();
 }
 
+function albumBlock(al, ai) {
+  return `
+    <section class="album" style="--i:${ai}">
+      <div class="album-head">
+        <div class="album-cover"><img src="${esc(al.cover)}" alt="${esc(al.title)}" loading="lazy"></div>
+        <div style="min-width:0">
+          <p class="eyebrow">${ai === 0 ? "Latest" : "Album"} · ${esc(al.year)}</p>
+          <h2 class="album-title">「${esc(al.title)}」</h2>
+          ${al.en ? `<p class="album-en">${esc(al.en)}</p>` : ""}
+          ${al.note ? `<p class="album-note">${esc(al.note)}</p>` : ""}
+          <div class="artist-stats">
+            <span class="pill mono">${esc(al.cat)}</span>
+            <span class="pill">${al.tracks.length}곡</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-head"><span>#</span><span>곡</span><span>구분</span><span style="text-align:right">길이</span></div>
+      <ul class="tl">${QUEUE.filter(t => t.album === al).map(trackRow).join("")}</ul>
+    </section>`;
+}
+
 function renderArtist(id) {
   const a = ARTISTS.find(x => x.id === id);
   if (!a) return renderHome();
   currentArtist = id; currentView = "artist";
-  const list = QUEUE.filter(t => t.artist.id === id);
-  const total = list.reduce((s, t) => s + (t.duration || 0), 0);
   view.innerHTML = `
     <button class="back" id="backBtn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
@@ -1005,10 +1135,8 @@ function renderArtist(id) {
         <p class="artist-bio">${esc(a.bio)}</p>
         <div class="artist-stats">
           <span class="pill">${esc(a.tag)}</span>
-          <span class="pill">「${esc(a.album)}」 ${esc(a.year)}</span>
-          <span class="pill mono">${esc(a.cat)}</span>
-          <span class="pill">${list.length}곡</span>
-          ${total ? `<span class="pill mono">${fmt(total)}</span>` : ""}
+          <span class="pill">앨범 ${a.albums.length}장</span>
+          <span class="pill">${a.trackCount}곡</span>
         </div>
         <button class="play-all" id="playAll">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>
@@ -1016,8 +1144,7 @@ function renderArtist(id) {
         </button>
       </div>
     </div>
-    <div class="tl-head stagger" style="--i:2"><span>#</span><span>곡</span><span>구분</span><span style="text-align:right">길이</span></div>
-    <ul class="tl">${list.map(trackRow).join("")}</ul>
+    ${a.albums.map(albumBlock).join("")}
     ${storyHtml(a)}`;
   syncRail();
 }
@@ -1089,10 +1216,10 @@ function chartRowsHtml() {
     <li style="--i:${i}">
       <button class="rank${i === 0 && r.n > 0 ? " top" : ""}" data-key="${r.t.key}">
         <span class="rank-no">${i + 1}<small>위</small></span>
-        <span class="rank-cover"><img src="${esc(r.t.artist.photo)}" alt=""></span>
+        <span class="rank-cover"><img src="${esc(r.t.album.cover)}" alt=""></span>
         <span style="min-width:0">
           <span class="rank-title">${esc(r.t.title)}</span>
-          <span class="rank-sub">${esc(r.t.artist.name)} · 「${esc(r.t.artist.album)}」</span>
+          <span class="rank-sub">${esc(r.t.artist.name)} · 「${esc(r.t.album.title)}」</span>
           <span class="rank-bar"><i style="width:${Math.round(r.n / max * 100)}%"></i></span>
         </span>
         <span class="rank-cnt"><b>${r.n}</b><span>회 재생</span></span>
@@ -1121,18 +1248,18 @@ function renderChart() {
 function renderPlayer(t) {
   const a = t.artist;
   currentArtist = a.id; currentView = "player";
-  const list = QUEUE.filter(x => x.artist.id === a.id);
+  const list = QUEUE.filter(x => x.album === t.album);
   view.innerHTML = `
     <button class="back" id="toArtist">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
-      ${esc(a.name)} · 「${esc(a.album)}」
+      ${esc(a.name)} · 「${esc(t.album.title)}」
     </button>
     <div class="player">
       <div class="stage">
-        <div class="jacket"><img src="${esc(a.photo)}" alt="${esc(a.name)} 「${esc(a.album)}」 앨범 자켓"></div>
+        <div class="jacket"><img src="${esc(t.album.cover)}" alt="${esc(a.name)} 「${esc(t.album.title)}」 앨범 자켓"></div>
         <div class="disc-zone">
           <div class="lp" id="lp" title="눌러서 재생 / 일시정지">
-            <div class="lp-art" style="background-image:url('${esc(a.photo)}');background-color:${a.color2}"></div>
+            <div class="lp-art" style="background-image:url('${esc(t.album.cover)}');background-color:${a.color2}"></div>
             <div class="lp-grooves"></div>
             <div class="lp-rim"></div>
             <div class="lp-hub"></div>
@@ -1145,9 +1272,9 @@ function renderPlayer(t) {
         <p class="np-eyebrow"><span class="live"></span>NOW PLAYING · 33⅓ RPM</p>
         <h1 class="np-big">${esc(t.title)}</h1>
         <p class="np-line">${esc(a.name)} · ${esc(a.tag)}</p>
-        <p class="np-line">「${esc(a.album)}」 · ${esc(a.year)} · HKR RECORDS</p>
+        <p class="np-line">「${esc(t.album.title)}」 · ${esc(t.album.year)} · HKR RECORDS</p>
         <div class="np-badges">
-          <span class="pill mono">${esc(a.cat)}</span>
+          <span class="pill mono">${esc(t.album.cat)}</span>
           <span class="pill">${t.tag || "수록곡"}</span>
         </div>
         <div class="tabs" role="tablist">
@@ -1190,7 +1317,7 @@ function allRow(t, i) {
       </span>
       <span style="min-width:0">
         <span class="track-title">${esc(t.title)}</span>
-        <span class="track-sub">「${esc(t.artist.album)}」</span>
+        <span class="track-sub">「${esc(t.album.title)}」</span>
       </span>
       <span class="tag">${esc(t.artist.name)}</span>
       <span class="len mono">${t.duration ? fmt(t.duration) : "–:––"}</span>
