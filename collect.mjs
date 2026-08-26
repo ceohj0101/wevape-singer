@@ -2,7 +2,7 @@
 import fs from 'fs';
 
 const BASE = 'https://abacus.jasoncameron.dev';
-const NS = 'wevape-singer-chart';
+const NS = 'wevape-singer-live';
 const keys = JSON.parse(fs.readFileSync('tracks.json', 'utf8'));
 
 const p = (n) => String(n).padStart(2, '0');

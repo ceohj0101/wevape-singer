@@ -958,7 +958,7 @@ const PLAYABLE = QUEUE.filter(t => t.src);
 /* ---- 재생 집계 ----
    REMOTE : 전 세계 접속자 합산 (공용 카운터 서버)
    local  : 이 기기 백업 (서버가 안 될 때만 사용)          ---- */
-const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-chart" };
+const CT = { base: "https://abacus.jasoncameron.dev", ns: "wevape-singer-live" };
 const pad2 = (n) => String(n).padStart(2, "0");
 /* 접속 국가와 무관하게 한국시간(KST) 기준으로 집계 — 깃허브 액션과 키를 맞추기 위함 */
 const kst = (d) => new Date((d ? d.getTime() : Date.now()) + 9 * 36e5);
@@ -1037,7 +1037,7 @@ function refreshChartRows() {
 }
 
 /* 예전 빌드에서 이 기기에만 쌓였던 재생 기록을 서버로 한 번 올려보냄 */
-const BACKFILL_KEY = "wevape-singer-backfilled-v1";
+const BACKFILL_KEY = "wevape-singer-backfilled-v2";
 function backfillOnce() {
   try {
     if (localStorage.getItem(BACKFILL_KEY)) return;
