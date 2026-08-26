@@ -280,6 +280,20 @@ svg[hidden]{display:none}
 .album-note{font-size:13.5px;color:var(--dim);line-height:1.8;margin:0 0 12px;max-width:58ch}
 @media (max-width:620px){ .album-cover{width:104px;height:104px} .album-head{gap:14px} }
 
+/* ---------- 신곡 배지 ---------- */
+.badge-new{display:inline-block;vertical-align:middle;margin-left:7px;padding:1px 6px 2px;border-radius:4px;
+  background:#E0322B;color:#fff;font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.09em;line-height:1.5;box-shadow:0 0 0 1px rgba(224,50,43,.35),0 2px 8px rgba(224,50,43,.34);
+  animation:newpulse 2.1s ease-in-out infinite}
+@keyframes newpulse{0%,100%{box-shadow:0 0 0 1px rgba(224,50,43,.35),0 2px 8px rgba(224,50,43,.34)}
+  50%{box-shadow:0 0 0 1px rgba(224,50,43,.6),0 2px 14px rgba(224,50,43,.62)}}
+.dot-new{display:inline-block;width:6px;height:6px;border-radius:50%;background:#E0322B;margin-left:6px;
+  vertical-align:middle;box-shadow:0 0 7px rgba(224,50,43,.85);animation:newpulse 2.1s ease-in-out infinite}
+.card{position:relative}
+.sleeve-wrap .badge-corner{position:absolute;top:8px;right:8px;z-index:4;margin:0}
+.btn-ghost .badge-new{margin-left:6px}
+@media (prefers-reduced-motion:reduce){.badge-new,.dot-new{animation:none}}
+
 /* ---------- 가수 소개 스토리 ---------- */
 .note{border-top:1px solid var(--line);margin-top:38px;padding-top:26px}
 .note-h{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass);font-weight:600;margin:0 0 18px}
@@ -781,10 +795,110 @@ const ARTISTS = [
       "차영근의 노래는 하품으로 시작한다. 아으~~~~ 피곤하거든. 하루가 얼마나 고단했는지 굳이 설명하지 않고, 첫 소절에 다 실어버린다. 그런데 다음 소절이 영차 영차다. 피곤한데 왜 영차냐고 물으면, 그래도 놀아야 하거든이라고 답한다.",
       "그가 사람을 만나면 던지는 첫 마디는 정해져 있다. 어디 살아? 몇 살? 예의 차리는 인사말을 건너뛰고 곧바로 본론으로 들어가는 방식인데, 이상하게 기분이 나쁘지 않다. 그 다음 마디가 항상 한잔 돌려이기 때문이다.",
       "그가 가장 못 견디는 것은 칙칙한 자리다. 남자는 재미가 없거든 하고 한숨을 쉬다가도, 재밌는 친구만 앞으로 나와 하고 판을 다시 깐다. 이 친구 물건이거든이라는 말이 나오면 그날 밤은 성공한 것이다.",
-      "트로트 쾌남이라는 이름은 그렇게 붙었다. 잘생겨서가 아니라, 피곤한 얼굴로도 끝까지 자리를 지키는 사람이라서."
+      "트로트 쾌남이라는 이름은 그렇게 붙었다. 잘생겨서가 아니라, 피곤한 얼굴로도 끝까지 자리를 지키는 사람이라서.",
+      "그리고 신곡 「나란남자 논란이 있거든」에서 그는 한 발 더 나간다. 빤히 쳐다보면 곤란하다며 시작해서, 결국 자기 존재 자체가 논란이라고 선언해 버린다. 잘생겼다고 자기 입으로 말한 건 아니고 거울이 그러더라는 식이다. 뻔뻔한데 밉지가 않다. 차영근이 늘 그런 식이었다."
     ],
     color: "#E0B24A", color2: "#12203A", photo: "younggeun.jpg",
     albums: [
+      {
+        title: "나란 남자", en: "", year: "2026", cat: "MS-8801", cover: "naran-namja.jpg", added: "2026-08-26",
+        note: "신곡 앨범. 논란·화제·인기, 그 중심엔 나. 피곤한 얼굴로 밤을 지키던 트로트 쾌남이, 이번엔 아예 자기 존재가 논란이라고 선언해 버렸다.",
+        tracks: [
+          { title: "나란남자 논란이 있거든", src: "nonran-itgeodeun.mp3", duration: 298, tag: "타이틀", added: "2026-08-26", lyrics: `
+[Intro]
+아으~
+그렇게 빤히 쳐다보면 곤란하거든
+나라는 남자…
+존재 자체가 논란이 있거든~
+
+[Verse 1]
+나의 섹시한 몸매
+나의 진한 목소리
+골목길을 걸어가도
+시선들이 따라오지
+셔츠 단추 하나 풀면
+동네 여자 잠 못 들고
+머리 한번 쓸어 넘기면
+여기저기 난리가 나
+
+[Pre-Chorus]
+한번 보면 두 번 보고
+두 번 보면 빠져들어
+가까이 오면 위험한데
+멀리 가도 생각나지
+
+[Chorus]
+논란이 있거든~ 논란이 있거든~
+나의 섹시한 몸매 논란이 있거든
+논란이 있거든~ 논란이 있거든~
+나의 진한 목소리 논란이 있거든
+다들 한번 빠지면 못 헤어나와
+밤새도록 내 생각에 잠을 못 자
+아으~ 어쩌겠어 타고난 것을
+내 존재 자체가 논란이 있거든~
+
+[Verse 2]
+검은 구두 반짝이고
+진한 향기 바람 타면
+내가 왔단 소문부터
+온 동네에 퍼져가네
+윙크 한번 날려주면
+마음들이 흔들리고
+손가락으로 머릴 빗으면
+아주 그냥 쓰러지네
+
+[Pre-Chorus]
+잡지 않아도 따라오고
+부르지 않아도 기다려
+내가 무슨 잘못이 있나
+매력으로 태어난 걸
+
+[Chorus]
+논란이 있거든~ 논란이 있거든~
+나의 매끈한 콧날 논란이 있거든
+논란이 있거든~ 논란이 있거든~
+나의 치명적인 눈빛 논란이 있거든
+다들 한번 빠지면 못 헤어나와
+잊어보려 할수록 더 깊이 빠져
+아으~ 미안해요 잘난 남자라
+내 존재 자체가 논란이 있거든~
+
+[Bridge]
+내가 잘생겼다고
+내 입으로 말하는 건 아니거든
+거울이 그러더라고
+오늘도 너무 완벽하다고
+아으~
+이 얼굴은 정말…
+논란이 있거든!
+
+[Final Chorus]
+논란이 있거든~ 논란이 있거든~
+내가 숨만 쉬어도 논란이 있거든
+논란이 있거든~ 논란이 있거든~
+가만히 서 있어도 논란이 있거든
+앞모습은 조각이라 말들이 많고
+뒷모습은 예술이라 난리가 나
+아으~ 감출 수도 없는 이 매력
+내 존재 자체가 논란이 있거든~
+
+나의 섹시한 몸매!
+논란이 있거든!
+나의 진한 목소리!
+논란이 있거든!
+한번 빠져들면!
+못 헤어나오거든!
+아으~ 나라는 남자
+태어난 것부터가
+논란이 있거든~
+
+[Outro]
+너도 이미 빠졌거든
+논란이…
+있거든~
+` }
+        ]
+      },
       {
         title: "피곤하거든~", en: "", year: "1987", cat: "AC-0258", cover: "younggeun.jpg",
         note: "트로트 쾌남 차영근의 대표작.",
@@ -954,6 +1068,22 @@ ARTISTS.forEach((a) => a.albums.forEach((al, ai) => al.tracks.forEach((t, ti) =>
 })));
 ARTISTS.forEach(a => { a.trackCount = a.albums.reduce((n, al) => n + al.tracks.length, 0); });
 const PLAYABLE = QUEUE.filter(t => t.src);
+
+/* ---- 신곡 빨간 배지 ----
+   곡이나 앨범에 added: "2026-08-26" 을 넣으면 그 날부터 NEW_DAYS 일 동안 빨간 NEW 배지가 붙습니다. ---- */
+const NEW_DAYS = 21;
+function isNew(o) {
+  if (!o || !o.added) return false;
+  const t = Date.parse(o.added + "T00:00:00+09:00");
+  if (isNaN(t)) return false;
+  return Date.now() - t < NEW_DAYS * 864e5;
+}
+const badge = (o) => (isNew(o) ? '<span class="badge-new">NEW</span>' : "");
+const dotNew = (on) => (on ? '<span class="dot-new" aria-label="신곡"></span>' : "");
+ARTISTS.forEach(a => {
+  a.isNew = a.albums.some(al => isNew(al) || al.tracks.some(isNew));
+});
+const NEW_COUNT = QUEUE.filter(isNew).length;
 
 /* ---- 재생 집계 ----
    REMOTE : 전 세계 접속자 합산 (공용 카운터 서버)
@@ -1130,7 +1260,7 @@ function renderHome() {
         인기차트
       </button>
       <button class="btn-ghost" id="showRoster">가수 명단</button>
-      <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}</button>
+      <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}${NEW_COUNT ? '<span class="badge-new">NEW ' + NEW_COUNT + '</span>' : ""}</button>
     </div>
     <ul class="grid">
       ${ARTISTS.map((a, i) => `
@@ -1139,13 +1269,14 @@ function renderHome() {
             <span class="sleeve-wrap">
               <span class="disc-peek" style="${discCss(a)}"></span>
               <span class="sleeve" style="background:${grad(a)}">${sleeveInner(a)}</span>
+              ${a.isNew ? '<span class="badge-new badge-corner">NEW</span>' : ""}
             </span>
-            <p class="card-name">${esc(a.name)}</p>
+            <p class="card-name">${esc(a.name)}${dotNew(a.isNew)}</p>
             <p class="card-meta">${esc(a.tag)} · 앨범 ${a.albums.length}장 · ${a.trackCount}곡</p>
           </button>
         </li>`).join("")}
     </ul>
-    <p class="hint">곡을 추가하려면 <code>index.html</code> 의 <code>ARTISTS</code> 목록에 한 줄 넣고, 음원은 <code></code>, 가사는 <code>lyrics</code> 항목에 붙여넣으면 됩니다.</p>`;
+    <p class="hint">새로 올라온 곡에는 <span class="badge-new">NEW</span> 배지가 붙습니다. 올린 날부터 ${NEW_DAYS}일 동안 표시됩니다.</p>`;
   syncRail();
 }
 
@@ -1160,7 +1291,7 @@ function trackRow(t, i) {
         <span class="bars"><i></i><i></i><i></i></span>
       </span>
       <span style="min-width:0">
-        <span class="track-title">${esc(t.title)}${soon ? '<span class="demo-flag">준비중</span>' : ""}</span>
+        <span class="track-title">${esc(t.title)}${badge(t)}${soon ? '<span class="demo-flag">준비중</span>' : ""}</span>
         <span class="track-sub">${esc(t.artist.name)}</span>
       </span>
       <span class="tag">${esc(t.tag || "")}</span>
@@ -1190,7 +1321,7 @@ function renderRoster() {
           <button class="roster-item" data-artist="${a.id}">
             <span class="roster-cover"><img src="${esc(a.photo)}" alt="${esc(a.name)}" loading="lazy"></span>
             <span style="min-width:0">
-              <span class="roster-name">${esc(a.name)}</span>
+              <span class="roster-name">${esc(a.name)}${a.isNew ? '<span class="badge-new">NEW</span>' : ""}</span>
               <span class="roster-hook">${esc(a.hook || a.bio)}</span>
               <span class="roster-bio">${esc(a.bio)}</span>
               <span class="roster-meta">
@@ -1212,7 +1343,7 @@ function albumBlock(al, ai) {
         <div class="album-cover"><img src="${esc(al.cover)}" alt="${esc(al.title)}" loading="lazy"></div>
         <div style="min-width:0">
           <p class="eyebrow">${ai === 0 ? "Latest" : "Album"} · ${esc(al.year)}</p>
-          <h2 class="album-title">「${esc(al.title)}」</h2>
+          <h2 class="album-title">「${esc(al.title)}」${badge(al)}</h2>
           ${al.en ? `<p class="album-en">${esc(al.en)}</p>` : ""}
           ${al.note ? `<p class="album-note">${esc(al.note)}</p>` : ""}
           <div class="artist-stats">
@@ -1326,7 +1457,7 @@ function chartRowsHtml() {
         <span class="rank-no">${i + 1}<small>위</small></span>
         <span class="rank-cover"><img src="${esc(r.t.album.cover)}" alt=""></span>
         <span style="min-width:0">
-          <span class="rank-title">${esc(r.t.title)}</span>
+          <span class="rank-title">${esc(r.t.title)}${badge(r.t)}</span>
           <span class="rank-sub">${esc(r.t.artist.name)} · 「${esc(r.t.album.title)}」</span>
           <span class="rank-bar"><i style="width:${Math.round(r.n / max * 100)}%"></i></span>
         </span>
@@ -1400,7 +1531,7 @@ function renderPlayer(t) {
         <p class="np-line">「${esc(t.album.title)}」 · ${esc(t.album.year)} · HKR RECORDS</p>
         <div class="np-badges">
           <span class="pill mono">${esc(t.album.cat)}</span>
-          <span class="pill">${t.tag || "수록곡"}</span>
+          <span class="pill">${t.tag || "수록곡"}</span>${badge(t)}
         </div>
         <div class="tabs" role="tablist">
           <button class="tab" id="tabLyrics" role="tab" aria-selected="true">가사</button>
@@ -1441,7 +1572,7 @@ function allRow(t, i) {
         <span class="bars"><i></i><i></i><i></i></span>
       </span>
       <span style="min-width:0">
-        <span class="track-title">${esc(t.title)}</span>
+        <span class="track-title">${esc(t.title)}${badge(t)}</span>
         <span class="track-sub">「${esc(t.album.title)}」</span>
       </span>
       <span class="tag">${esc(t.artist.name)}</span>
@@ -1456,10 +1587,10 @@ function syncRail() {
     </button></li>` + `<li class="rail-all"><button class="rail-item" id="railChart" ${currentView === "chart" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>인기차트
     </button></li>` + `<li class="rail-all"><button class="rail-item" id="railAll" ${currentView === "all" ? 'aria-current="true"' : ""}>
-      <span class="dot"></span>전체 곡 <span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${PLAYABLE.length}</span>
+      <span class="dot"></span>전체 곡 ${dotNew(NEW_COUNT > 0)}<span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${PLAYABLE.length}</span>
     </button></li>` + ARTISTS.map(a => `
     <li><button class="rail-item" data-artist="${a.id}" ${currentArtist === a.id ? 'aria-current="true"' : ""}>
-      <span class="dot"></span>${esc(a.name)}
+      <span class="dot"></span>${esc(a.name)}${dotNew(a.isNew)}
     </button></li>`).join("");
 }
 

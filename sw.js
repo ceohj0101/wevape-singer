@@ -1,4 +1,4 @@
-const CACHE = "wevape-singer-v8";
+const CACHE = "wevape-singer-v9";
 const CORE = ["./manifest.json", "./icon.png", "./icon-192.png"];
 
 self.addEventListener("install", (e) => {
