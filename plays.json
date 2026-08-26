@@ -1,20 +1,24 @@
 {
- "updated": "2026-08-25T23:47:42.298Z",
+ "updated": "2026-08-26T00:58:53.220Z",
  "ns": "wevape-singer-chart",
  "counts": {
   "d20260825-hyunjin-0-0": 2,
-  "w202635-hyunjin-0-0": 4,
-  "m202608-hyunjin-0-0": 4,
-  "all-hyunjin-0-0": 4,
+  "w202635-hyunjin-0-0": 5,
+  "m202608-hyunjin-0-0": 5,
+  "all-hyunjin-0-0": 5,
   "d20260825-hyungjin-0-0": 2,
-  "w202635-hyungjin-0-0": 3,
-  "m202608-hyungjin-0-0": 3,
-  "all-hyungjin-0-0": 3,
-  "d20260826-hyunjin-0-0": 2,
-  "d20260826-younggeun-0-0": 1,
-  "w202635-younggeun-0-0": 1,
-  "m202608-younggeun-0-0": 1,
-  "all-younggeun-0-0": 1,
-  "d20260826-hyungjin-0-0": 1
+  "w202635-hyungjin-0-0": 4,
+  "m202608-hyungjin-0-0": 4,
+  "all-hyungjin-0-0": 4,
+  "d20260826-hyunjin-0-0": 3,
+  "d20260826-younggeun-0-0": 2,
+  "w202635-younggeun-0-0": 2,
+  "m202608-younggeun-0-0": 2,
+  "all-younggeun-0-0": 2,
+  "d20260826-hyungjin-0-0": 2,
+  "d20260826-hyunjin-1-0": 1,
+  "w202635-hyunjin-1-0": 1,
+  "m202608-hyunjin-1-0": 1,
+  "all-hyunjin-1-0": 1
  }
 }
