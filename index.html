@@ -280,6 +280,31 @@ svg[hidden]{display:none}
 .album-note{font-size:13.5px;color:var(--dim);line-height:1.8;margin:0 0 12px;max-width:58ch}
 @media (max-width:620px){ .album-cover{width:104px;height:104px} .album-head{gap:14px} }
 
+/* ---------- 조회수 ---------- */
+.pc{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);letter-spacing:-.01em}
+.track[aria-current="true"] .pc{color:var(--brass)}
+
+/* ---------- 신곡 화면 ---------- */
+.newgrid{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.newcard{display:block;width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;background:var(--surface);transition:border-color .2s,transform .2s;
+  animation:riseSoft .42s ease-out backwards;animation-delay:calc(var(--i,0)*90ms)}
+.newcard:hover{border-color:var(--brass);transform:translateY(-3px)}
+.newcard-cover{position:relative;display:block;width:100%;aspect-ratio:1;background:var(--surface-2)}
+.newcard-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.newcard-cover .badge-new{position:absolute;top:9px;right:9px;margin:0}
+.newcard-body{display:block;padding:13px 14px 15px}
+.newcard-title{display:block;font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:18px;
+  letter-spacing:-.02em;margin:0 0 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.newcard-sub{display:block;font-size:12.5px;color:var(--dim);margin:0 0 9px}
+.newcard-meta{display:flex;gap:8px;align-items:center;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;color:var(--faint)}
+.weekbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 2px;
+  padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:var(--surface);
+  font-size:12.5px;color:var(--dim)}
+.weekbar b{color:var(--text);font-weight:600}
+
 /* ---------- 신곡 배지 ---------- */
 .badge-new{display:inline-block;vertical-align:middle;margin-left:7px;padding:1px 6px 2px;border-radius:4px;
   background:#E0322B;color:#fff;font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
@@ -595,7 +620,7 @@ const ARTISTS = [
     color: "#C9A227", color2: "#16223F", photo: "hyunjin.jpg",
     albums: [
       {
-        title: "교통정리", en: "TRAFFIC CLEAR", year: "2025", cat: "HKR-2501", cover: "traffic-clear.jpg",
+        id: "traffic-clear", title: "교통정리", en: "TRAFFIC CLEAR", year: "2025", cat: "HKR-2501", cover: "traffic-clear.jpg",
         note: "정규 2집. 일본 호스트바의 길을 걷기 시작한 장현진이, 한국이 그리워 매일 뮤직뱅크를 보다 K-힙합에 꽂혀버렸다. 결국 호빠 고객을 만족시키기 위해 내가 이 세계를 정리해버리겠다는 포부를 담아 낸 랩 앨범.",
         tracks: [
           { title: "교통정리", src: "gyotong-jeongri.mp3", duration: 270, tag: "타이틀", lyrics: `
@@ -679,7 +704,7 @@ const ARTISTS = [
         ]
       },
       {
-        title: "정리할게요", en: "", year: "1987", cat: "AC-0258", cover: "jeongri-halkkeyo.jpg",
+        id: "jeongri", title: "정리할게요", en: "", year: "1987", cat: "AC-0258", cover: "jeongri-halkkeyo.jpg",
         note: "정규 1집. 트로트 신사 장현진의 데뷔작.",
         tracks: [
           { title: "정리할게요", src: "jeongri-halkkeyo.mp3", duration: 199, tag: "타이틀", lyrics: `
@@ -801,7 +826,7 @@ const ARTISTS = [
     color: "#E0B24A", color2: "#12203A", photo: "younggeun.jpg",
     albums: [
       {
-        title: "나란 남자", en: "", year: "2026", cat: "MS-8801", cover: "naran-namja.jpg", added: "2026-08-26",
+        id: "naran-namja", title: "나란 남자", en: "", year: "2026", cat: "MS-8801", cover: "naran-namja.jpg", added: "2026-08-26",
         note: "신곡 앨범. 논란·화제·인기, 그 중심엔 나. 피곤한 얼굴로 밤을 지키던 트로트 쾌남이, 이번엔 아예 자기 존재가 논란이라고 선언해 버렸다.",
         tracks: [
           { title: "나란남자 논란이 있거든", src: "nonran-itgeodeun.mp3", duration: 298, tag: "타이틀", added: "2026-08-26", lyrics: `
@@ -900,7 +925,7 @@ const ARTISTS = [
         ]
       },
       {
-        title: "피곤하거든~", en: "", year: "1987", cat: "AC-0258", cover: "younggeun.jpg",
+        id: "piegon", title: "피곤하거든~", en: "", year: "1987", cat: "AC-0258", cover: "younggeun.jpg",
         note: "트로트 쾌남 차영근의 대표작.",
         tracks: [
           { title: "영차거든", src: "yeongcha-geodeun.mp3", duration: 82, tag: "타이틀", lyrics: `
@@ -956,7 +981,7 @@ const ARTISTS = [
     color: "#D9A24B", color2: "#4A2A18", photo: "hyungjin.jpg",
     albums: [
       {
-        title: "쳐진 남자 좋아", en: "", year: "2026", cat: "HKR-2602", cover: "chyeojin-namja-joa.jpg", added: "2026-08-26",
+        id: "chyeojin", title: "쳐진 남자 좋아", en: "", year: "2026", cat: "HKR-2602", cover: "chyeojin-namja-joa.jpg", added: "2026-08-26",
         note: "스페셜 싱글. 무스도 찌프차도 아사히도 잠깐 내려놓았다. 눈 처진 남자가 처음으로 남 얘기를 한 곡. 첫 번째부터 네 번째 만남까지를 세어가며, 결국 그냥 너라서 좋다고 말해버린다.",
         tracks: [
           { title: "쳐진 남자 좋아", src: "chyeojin-namja-joa.mp3", duration: 203, tag: "타이틀", added: "2026-08-26", lyrics: `
@@ -1021,7 +1046,7 @@ const ARTISTS = [
         ]
       },
       {
-        title: "'85 트로트 늘보 제1집", en: "", year: "1985", cat: "HKR-8805", cover: "hyungjin.jpg",
+        id: "trot85", title: "'85 트로트 늘보 제1집", en: "", year: "1985", cat: "HKR-8805", cover: "hyungjin.jpg",
         note: "트로트의 새로운 바람, 김형진의 첫 정규.",
         tracks: [
           { title: "나 같은 남자 어때요", src: "na-gateun-namja.mp3", duration: 276, tag: "타이틀", lyrics: `
@@ -1130,14 +1155,15 @@ const view = $("#view");
 /* ---- 곡 목록 평탄화 ---- */
 const QUEUE = [];
 ARTISTS.forEach((a) => a.albums.forEach((al, ai) => al.tracks.forEach((t, ti) => {
-  QUEUE.push({ ...t, artist: a, album: al, key: a.id + ":" + ai + ":" + ti, index: QUEUE.length });
+  /* key 는 앨범 순서가 바뀌어도 절대 안 변하는 고정 키 (조회수가 곡에 붙어 있게) */
+  QUEUE.push({ ...t, artist: a, album: al, key: a.id + ":" + (al.id || ai) + ":" + (t.id || ti), index: QUEUE.length });
 })));
 ARTISTS.forEach(a => { a.trackCount = a.albums.reduce((n, al) => n + al.tracks.length, 0); });
 const PLAYABLE = QUEUE.filter(t => t.src);
 
 /* ---- 신곡 빨간 배지 ----
    곡이나 앨범에 added: "2026-08-26" 을 넣으면 그 날부터 NEW_DAYS 일 동안 빨간 NEW 배지가 붙습니다. ---- */
-const NEW_DAYS = 21;
+const NEW_DAYS = 7;   /* 신곡 표시 기간 — 일주일 단위로 갱신 */
 function isNew(o) {
   if (!o || !o.added) return false;
   const t = Date.parse(o.added + "T00:00:00+09:00");
@@ -1224,7 +1250,20 @@ function loadPlaysFile() {
     .catch(() => {});
 }
 
+/* ---- 곡별 누적 조회수 (전 서버 합산) ---- */
+function playsOf(t) { return countOf("all", t.key); }
+function pcHtml(t) {
+  return t.src ? `<span class="pc" data-k="${t.key}">${playsOf(t).toLocaleString()}회</span>` : "";
+}
+function refreshPlayCounts() {
+  document.querySelectorAll(".pc").forEach(el => {
+    const t = QUEUE.find(x => x.key === el.dataset.k);
+    if (t) el.textContent = playsOf(t).toLocaleString() + "회";
+  });
+}
+
 function refreshChartRows() {
+  refreshPlayCounts();
   if (currentView !== "chart") return;
   const box = document.getElementById("rankList");
   if (box) box.innerHTML = chartRowsHtml();
@@ -1325,6 +1364,7 @@ function renderHome() {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>
         인기차트
       </button>
+      <button class="btn-ghost" id="showNew">신곡${NEW_COUNT ? '<span class="badge-new">' + NEW_COUNT + '</span>' : ""}</button>
       <button class="btn-ghost" id="showRoster">가수 명단</button>
       <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}${NEW_COUNT ? '<span class="badge-new">NEW ' + NEW_COUNT + '</span>' : ""}</button>
     </div>
@@ -1358,7 +1398,7 @@ function trackRow(t, i) {
       </span>
       <span style="min-width:0">
         <span class="track-title">${esc(t.title)}${badge(t)}${soon ? '<span class="demo-flag">준비중</span>' : ""}</span>
-        <span class="track-sub">${esc(t.artist.name)}</span>
+        <span class="track-sub">${esc(t.artist.name)}${t.src ? " · " : ""}${pcHtml(t)}</span>
       </span>
       <span class="tag">${esc(t.tag || "")}</span>
       <span class="len mono">${t.duration ? fmt(t.duration) : "–:––"}</span>
@@ -1373,6 +1413,55 @@ function storyHtml(a) {
     ${a.quote ? `<p class="pullquote">"${esc(a.quote)}"</p>` : ""}
     ${a.story.map(t => `<p class="bodycopy">${esc(t)}</p>`).join("")}
   </section>`;
+}
+
+function weekLabel() {
+  const k = kst();
+  const dow = (k.getUTCDay() + 6) % 7;                 /* 월=0 */
+  const mon = new Date(k.getTime() - dow * 864e5);
+  const sun = new Date(mon.getTime() + 6 * 864e5);
+  const f = (d) => (d.getUTCMonth() + 1) + "/" + d.getUTCDate();
+  return f(mon) + " ~ " + f(sun);
+}
+
+function renderNew() {
+  currentArtist = null; currentView = "new";
+  const fresh = QUEUE.filter(t => t.src && isNew(t))
+    .sort((a, b) => (b.added || "").localeCompare(a.added || "") || a.index - b.index);
+  const fallback = !fresh.length;
+  const list = fallback
+    ? PLAYABLE.slice().sort((a, b) => (b.added || b.album.year || "").localeCompare(a.added || a.album.year || "")).slice(0, 3)
+    : fresh;
+  view.innerHTML = `
+    <p class="eyebrow">New releases</p>
+    <h1 class="big">신곡</h1>
+    <p class="lede">최근 ${NEW_DAYS}일 안에 올라온 곡입니다. 일주일 단위로 자동 갱신됩니다.</p>
+    <div class="weekbar">
+      <span>이번 주 <b>${weekLabel()}</b> (한국시간)</span>
+      <span>·</span>
+      <span>${fallback ? "이번 주 신곡 없음 — 최근 발매곡" : "신곡 <b>" + fresh.length + "곡</b>"}</span>
+    </div>
+    <ul class="newgrid">
+      ${list.map((t, i) => `
+        <li style="--i:${i}">
+          <button class="newcard" data-key="${t.key}">
+            <span class="newcard-cover">
+              <img src="${esc(t.album.cover)}" alt="${esc(t.album.title)}" loading="lazy">
+              ${isNew(t) ? '<span class="badge-new">NEW</span>' : ""}
+            </span>
+            <span class="newcard-body">
+              <span class="newcard-title">${esc(t.title)}</span>
+              <span class="newcard-sub">${esc(t.artist.name)} · 「${esc(t.album.title)}」</span>
+              <span class="newcard-meta">
+                <span>${t.added ? esc(t.added.replace(/-/g, ".")) : esc(t.album.year)}</span>
+                <span>·</span>
+                ${pcHtml(t)}
+              </span>
+            </span>
+          </button>
+        </li>`).join("")}
+    </ul>`;
+  syncRail();
 }
 
 function renderRoster() {
@@ -1597,7 +1686,7 @@ function renderPlayer(t) {
         <p class="np-line">「${esc(t.album.title)}」 · ${esc(t.album.year)} · HKR RECORDS</p>
         <div class="np-badges">
           <span class="pill mono">${esc(t.album.cat)}</span>
-          <span class="pill">${t.tag || "수록곡"}</span>${badge(t)}
+          <span class="pill">${t.tag || "수록곡"}</span><span class="pill">누적 ${pcHtml(t)}</span>${badge(t)}
         </div>
         <div class="tabs" role="tablist">
           <button class="tab" id="tabLyrics" role="tab" aria-selected="true">가사</button>
@@ -1639,7 +1728,7 @@ function allRow(t, i) {
       </span>
       <span style="min-width:0">
         <span class="track-title">${esc(t.title)}${badge(t)}</span>
-        <span class="track-sub">「${esc(t.album.title)}」</span>
+        <span class="track-sub">「${esc(t.album.title)}」 · ${pcHtml(t)}</span>
       </span>
       <span class="tag">${esc(t.artist.name)}</span>
       <span class="len mono">${t.duration ? fmt(t.duration) : "–:––"}</span>
@@ -1648,7 +1737,9 @@ function allRow(t, i) {
 }
 
 function syncRail() {
-  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railRoster" ${currentView === "roster" ? 'aria-current="true"' : ""}>
+  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railNew" ${currentView === "new" ? 'aria-current="true"' : ""}>
+      <span class="dot"></span>신곡 ${dotNew(NEW_COUNT > 0)}<span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${NEW_COUNT}</span>
+    </button></li>` + `<li class="rail-all"><button class="rail-item" id="railRoster" ${currentView === "roster" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>가수 명단
     </button></li>` + `<li class="rail-all"><button class="rail-item" id="railChart" ${currentView === "chart" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>인기차트
@@ -1663,6 +1754,8 @@ function syncRail() {
 document.addEventListener("click", (e) => {
   const card = e.target.closest("[data-artist]");
   if (card) { $("#q").value = ""; renderArtist(card.dataset.artist); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  const ncard = e.target.closest(".newcard");
+  if (ncard) { play(QUEUE.find(t => t.key === ncard.dataset.key)); return; }
   const row = e.target.closest(".track");
   if (row) { if (!row.classList.contains("soon")) play(QUEUE.find(t => t.key === row.dataset.key)); return; }
   if (e.target.closest("#lp")) { toggle(); return; }
@@ -1686,6 +1779,7 @@ document.addEventListener("click", (e) => {
   }
   if (e.target.closest("#showAll") || e.target.closest("#railAll")) { $("#q").value = ""; renderAll(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railChart") || e.target.closest("#showChart")) { $("#q").value = ""; renderChart(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if (e.target.closest("#railNew") || e.target.closest("#showNew")) { $("#q").value = ""; renderNew(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railRoster") || e.target.closest("#showRoster")) { $("#q").value = ""; renderRoster(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   const rtab = e.target.closest(".tab[data-range]");
   if (rtab) { chartRange = rtab.dataset.range; renderChart(); return; }
@@ -1972,6 +2066,8 @@ if ("serviceWorker" in navigator) {
 setArm(null);
 renderHome();
 loadPlaysFile();
+loadCounts("all");
+setInterval(() => loadCounts("all"), 60000);   /* 1분마다 전 서버 누적 갱신 */
 setTimeout(backfillOnce, 1500);   /* 예전 기록 서버로 복구 */
 </script>
 </body>
