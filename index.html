@@ -320,13 +320,42 @@ input[type=range].sl::-moz-range-thumb{width:15px;height:15px;border-radius:50%;
 .xfader .sl{margin:4px 0}
 .dj-hint{font-size:12px;color:var(--faint);margin:16px 0 8px;line-height:1.85}
 .dj-hint kbd{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--dim);margin:0 1px}
-.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.jogwrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:20px 0 4px;
+  border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:20px 16px 22px}
+.jog{position:relative;width:min(248px,62vw);aspect-ratio:1;border-radius:50%;cursor:grab;
+  touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 1px var(--line)}
+.jog.grab{cursor:grabbing;box-shadow:0 10px 34px rgba(0,0,0,.5),0 0 0 2px var(--brass)}
+.jog.off{opacity:.4;cursor:default}
+.jog-disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;
+  background:repeating-radial-gradient(circle at 50% 50%, var(--vinyl) 0 2.6px, var(--vinyl-2) 2.6px 4px)}
+.jog-label{position:absolute;left:50%;top:50%;width:38%;height:38%;margin:-19% 0 0 -19%;border-radius:50%;
+  overflow:hidden;background:var(--surface-2);box-shadow:0 0 0 1px rgba(0,0,0,.5)}
+.jog-label img{width:100%;height:100%;object-fit:cover;display:block}
+.jog-hub{position:absolute;left:50%;top:50%;width:5.5%;height:5.5%;margin:-2.75% 0 0 -2.75%;
+  border-radius:50%;background:var(--bg,#0C0E12);box-shadow:0 0 0 2px rgba(0,0,0,.6);z-index:3}
+.jog-mark{position:absolute;left:50%;top:4%;width:3px;height:16%;margin-left:-1.5px;border-radius:2px;
+  background:var(--brass);opacity:.85;z-index:2}
+.jog-cap{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--faint);text-align:center}
+.jog-cap b{color:var(--brass)}
+.jog-speed{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--brass);min-height:15px}
+.padgroup{margin-top:18px}
+.pad-lab{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.14em;color:var(--faint);margin:0 0 9px}
+.pad-lab::after{content:"";flex:1;height:1px;background:var(--line)}
+.pad-lab b{color:var(--brass);font-weight:600;letter-spacing:.1em}
+.pad-lab.n b{color:#D6459B}
+.pad-lab.d b{color:#E0322B}
+.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .pad{position:relative;aspect-ratio:1.35/1;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;color:var(--text);overflow:hidden;transition:transform .06s,box-shadow .12s,border-color .12s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 .pad:active,.pad.hit{transform:scale(.955)}
 .pad-hook{border-color:rgba(201,162,39,.34)}
 .pad-hook.hit{background:var(--brass);color:#17130a;border-color:var(--brass);box-shadow:0 0 22px rgba(201,162,39,.6)}
 .pad-drum{border-color:rgba(224,50,43,.3)}
 .pad-drum.hit{background:#E0322B;color:#fff;border-color:#E0322B;box-shadow:0 0 22px rgba(224,50,43,.6)}
+.pad-night{border-color:rgba(214,69,155,.32)}
+.pad-night.hit{background:#D6459B;color:#fff;border-color:#D6459B;box-shadow:0 0 22px rgba(214,69,155,.62)}
+.pad.busy{border-color:#D6459B;box-shadow:0 0 16px rgba(214,69,155,.42)}
 .pad-n{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;opacity:.55}
 .pad-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
 .pad-key{position:absolute;top:6px;right:8px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;opacity:.42}
@@ -1538,10 +1567,21 @@ const DRUMS = [
   { id: "snare", name: "스네어", key: "W" },
   { id: "hat",   name: "하이햇", key: "E" },
   { id: "clap",  name: "클랩",   key: "R" },
-  { id: "horn",  name: "에어혼", key: "A" },
-  { id: "riser", name: "라이저", key: "S" },
-  { id: "stop",  name: "바이닐", key: "D" },
-  { id: "boom",  name: "임팩트", key: "F" }
+  { id: "horn",  name: "에어혼", key: "T" },
+  { id: "riser", name: "라이저", key: "Y" },
+  { id: "stop",  name: "바이닐", key: "U" },
+  { id: "boom",  name: "임팩트", key: "I" }
+];
+/* 7080 나이트 DJ 세트 */
+const NIGHT = [
+  { id: "ah",     name: "아으~",    sub: "추임새",   key: "A" },
+  { id: "eoeo",   name: "어어어~",  sub: "긴 신음",  key: "S" },
+  { id: "yaho",   name: "으아~",    sub: "환성",     key: "D" },
+  { id: "count",  name: "카운트다운", sub: "5·4·3·2·1", key: "F" },
+  { id: "siren",  name: "사이렌",   sub: "나이트",   key: "G" },
+  { id: "laser",  name: "뿅뿅",     sub: "레이저",   key: "H" },
+  { id: "scratch",name: "스크래치", sub: "긁기",     key: "J" },
+  { id: "crowd",  name: "함성",     sub: "박수",     key: "K" }
 ];
 const HOOK_KEYS = ["1","2","3","4","5","6","7","8"];
 const DJ = { master: null, padOut: null, decks: {}, cache: {}, slices: [], xf: 0.5, raf: null, loading: {} };
@@ -1627,7 +1667,7 @@ function deckLoad(id, key) {
   DJ.loading[id] = true; renderDeck(id);
   loadBuffer(t.src).then(function (buf) {
     d.buffer = buf; DJ.loading[id] = false;
-    if (id === "A") buildHooks();
+    if (id === "A") { buildHooks(); renderJog(); }
     renderDeck(id); renderPads();
   }).catch(function () { DJ.loading[id] = false; renderDeck(id); });
 }
@@ -1783,6 +1823,379 @@ function vinylStop() {
   }
 }
 
+/* ---- 사람 목소리 비슷한 모음(포먼트) 합성 ---- */
+const VOWEL = {   /* [F1, F2, F3] 남성 기준 */
+  a:  [730, 1090, 2440],   /* 아 */
+  eo: [640, 1190, 2390],   /* 어 */
+  eu: [300, 1390, 2200],   /* 으 */
+  o:  [570,  840, 2410]    /* 오 */
+};
+
+function voiceHit(opt) {
+  const t = ac.currentTime;
+  const dur = opt.dur, F0 = opt.f0, F1 = opt.f1;
+  const A = VOWEL[opt.from], B = VOWEL[opt.to || opt.from];
+
+  const out = ac.createGain();
+  out.gain.setValueAtTime(0.0001, t);
+  out.gain.exponentialRampToValueAtTime(opt.peak || 0.5, t + (opt.atk || 0.07));
+  out.gain.setValueAtTime(opt.peak || 0.5, t + dur * 0.72);
+  out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  out.connect(DJ.padOut);
+
+  /* 성대: 톱니 + 비브라토 */
+  const osc = ac.createOscillator(); osc.type = "sawtooth";
+  osc.frequency.setValueAtTime(F0, t);
+  if (opt.mid) {
+    osc.frequency.exponentialRampToValueAtTime(opt.mid, t + dur * 0.35);
+    osc.frequency.exponentialRampToValueAtTime(F1, t + dur);
+  } else {
+    osc.frequency.exponentialRampToValueAtTime(F1, t + dur);
+  }
+  const vib = ac.createOscillator(); vib.frequency.value = opt.vib || 5.4;
+  const vibG = ac.createGain(); vibG.gain.value = opt.vibDepth || 5;
+  vib.connect(vibG); vibG.connect(osc.frequency);
+
+  /* 숨소리 */
+  const br = ac.createBufferSource(); br.buffer = noiseBuffer(dur + 0.1);
+  const brF = ac.createBiquadFilter(); brF.type = "bandpass"; brF.frequency.value = 1800; brF.Q.value = 0.8;
+  const brG = ac.createGain(); brG.gain.value = 0.055;
+  br.connect(brF); brF.connect(brG);
+
+  /* 포먼트 3개 */
+  [0, 1, 2].forEach(function (i) {
+    const f = ac.createBiquadFilter(); f.type = "bandpass";
+    f.frequency.setValueAtTime(A[i], t);
+    f.frequency.linearRampToValueAtTime(B[i], t + dur * 0.85);
+    f.Q.value = [9, 11, 13][i];
+    const g = ac.createGain(); g.gain.value = [1, 0.62, 0.3][i];
+    osc.connect(f); brG.connect(f); f.connect(g); g.connect(out);
+  });
+
+  osc.start(t); osc.stop(t + dur + 0.05);
+  vib.start(t); vib.stop(t + dur + 0.05);
+  br.start(t);  br.stop(t + dur + 0.05);
+}
+
+/* ---- 함성·박수 버퍼 (한 번 만들어 재사용) ---- */
+let CROWD = null;
+function crowdBuffer() {
+  if (CROWD) return CROWD;
+  const sec = 2.8, n = Math.floor(ac.sampleRate * sec);
+  const b = ac.createBuffer(1, n, ac.sampleRate);
+  const c = b.getChannelData(0);
+  for (let i = 0; i < n; i++) c[i] = (Math.random() * 2 - 1) * 0.12;   /* 웅성거림 */
+  for (let k = 0; k < 260; k++) {                                      /* 박수 알갱이 */
+    const at = Math.floor(Math.random() * (n - 2000));
+    const len = 120 + Math.floor(Math.random() * 260);
+    const amp = 0.35 + Math.random() * 0.5;
+    for (let i = 0; i < len; i++) {
+      const e = Math.pow(1 - i / len, 2.4);
+      c[at + i] += (Math.random() * 2 - 1) * amp * e;
+    }
+  }
+  let peak = 0;
+  for (let i = 0; i < n; i++) peak = Math.max(peak, Math.abs(c[i]));
+  for (let i = 0; i < n; i++) c[i] /= peak * 1.05;
+  CROWD = b; return b;
+}
+
+/* ---- 카운트다운 ---- */
+let countTimers = [];
+function countdown() {
+  countTimers.forEach(clearTimeout); countTimers = [];
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+  const words = ["다섯", "넷", "셋", "둘", "하나"];
+  let koVoice = null;
+  try {
+    if (window.speechSynthesis) {
+      const vs = speechSynthesis.getVoices() || [];
+      koVoice = vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
+    }
+  } catch (e) {}
+  const el = document.querySelector('.pad[data-pad="ncount"]');
+  if (el) el.classList.add("busy");
+  words.forEach(function (w, i) {
+    countTimers.push(setTimeout(function () {
+      const t = ac.currentTime;
+      const last = i === 4;
+      const o = ac.createOscillator(); o.type = "square";
+      o.frequency.value = last ? 1320 : 880;
+      const g = envGain(t, 0.004, last ? 0.4 : 0.11, 0.34);
+      const f = ac.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 4200;
+      o.connect(f); f.connect(g); g.connect(DJ.padOut);
+      o.start(t); o.stop(t + (last ? 0.5 : 0.2));
+      if (koVoice) {
+        try {
+          const u = new SpeechSynthesisUtterance(w);
+          u.voice = koVoice; u.lang = koVoice.lang; u.rate = 1.15; u.pitch = 0.85; u.volume = 1;
+          speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+      flashPad("ncount");
+      if (last) countTimers.push(setTimeout(function () {
+        playDrum("horn"); playNight("crowd");
+        if (el) el.classList.remove("busy");
+      }, 520));
+    }, i * 620));
+  });
+}
+
+/* ---- 나이트 패드 ---- */
+function playNight(id) {
+  if (!ac || !DJ.padOut) return;
+  if (ac.state === "suspended") ac.resume();
+  const t = ac.currentTime;
+  if (id === "ah") {                    /* 아으~ */
+    voiceHit({ dur: 0.85, f0: 168, mid: 132, f1: 104, from: "a", to: "eu", peak: 0.55, vib: 5.2, vibDepth: 6 });
+  } else if (id === "eoeo") {           /* 어어어~ */
+    voiceHit({ dur: 1.7, f0: 128, mid: 152, f1: 118, from: "eo", to: "eo", peak: 0.5, atk: 0.12, vib: 5.8, vibDepth: 9 });
+  } else if (id === "yaho") {           /* 으아~ 환성 */
+    voiceHit({ dur: 1.05, f0: 150, mid: 232, f1: 176, from: "eu", to: "a", peak: 0.55, atk: 0.05, vib: 6.4, vibDepth: 8 });
+  } else if (id === "count") {
+    countdown(); return;
+  } else if (id === "siren") {          /* 나이트 사이렌 */
+    const o = ac.createOscillator(); o.type = "sawtooth"; o.frequency.value = 720;
+    const lfo = ac.createOscillator(); lfo.type = "sine"; lfo.frequency.value = 1.5;
+    const lg = ac.createGain(); lg.gain.value = 340;
+    lfo.connect(lg); lg.connect(o.frequency);
+    const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1300; f.Q.value = 2.4;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.4, t + 0.1);
+    g.gain.setValueAtTime(0.4, t + 2.0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 2.45);
+    o.connect(f); f.connect(g); g.connect(DJ.padOut);
+    o.start(t); o.stop(t + 2.5); lfo.start(t); lfo.stop(t + 2.5);
+  } else if (id === "laser") {          /* 뿅뿅 */
+    [0, 0.14, 0.28].forEach(function (off) {
+      const st = t + off;
+      const o = ac.createOscillator(); o.type = "square";
+      o.frequency.setValueAtTime(2600, st);
+      o.frequency.exponentialRampToValueAtTime(240, st + 0.12);
+      const g = envGain(st, 0.003, 0.11, 0.3);
+      o.connect(g); g.connect(DJ.padOut);
+      o.start(st); o.stop(st + 0.16);
+    });
+  } else if (id === "scratch") {        /* 스크래치 */
+    const d = DJ.decks.A;
+    if (d && d.buffer) {
+      const at = Math.min(d.buffer.duration - 1.2, Math.max(0, deckPos(d)));
+      const s = ac.createBufferSource(); s.buffer = d.buffer;
+      const pr = s.playbackRate;
+      pr.setValueAtTime(1.6, t);
+      pr.linearRampToValueAtTime(0.35, t + 0.12);
+      pr.linearRampToValueAtTime(1.9, t + 0.24);
+      pr.linearRampToValueAtTime(0.4, t + 0.36);
+      pr.linearRampToValueAtTime(1.5, t + 0.48);
+      const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1500; f.Q.value = 1.1;
+      const g = envGain(t, 0.006, 0.56, 0.75);
+      s.connect(f); f.connect(g); g.connect(DJ.padOut);
+      s.start(t, at, 0.7); s.stop(t + 0.62);
+    } else {
+      const s = ac.createBufferSource(); s.buffer = noiseBuffer(0.6);
+      const pr = s.playbackRate;
+      pr.setValueAtTime(1.8, t); pr.linearRampToValueAtTime(0.3, t + 0.14);
+      pr.linearRampToValueAtTime(1.7, t + 0.3); pr.linearRampToValueAtTime(0.4, t + 0.45);
+      const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1400; f.Q.value = 3;
+      const g = envGain(t, 0.006, 0.5, 0.5);
+      s.connect(f); f.connect(g); g.connect(DJ.padOut);
+      s.start(t); s.stop(t + 0.6);
+    }
+  } else if (id === "crowd") {          /* 함성·박수 */
+    const s = ac.createBufferSource(); s.buffer = crowdBuffer();
+    const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1500; f.Q.value = 0.55;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.62, t + 0.28);
+    g.gain.setValueAtTime(0.62, t + 1.9);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 2.75);
+    s.connect(f); f.connect(g); g.connect(DJ.padOut);
+    s.start(t); s.stop(t + 2.8);
+  }
+  flashPad("n" + id);
+}
+
+/* ═══════ 조그휠 스크래치 (레코드 잡고 왔다갔다) ═══════ */
+const SCR = {
+  on: false, deck: "A", node: null, gain: null, dir: 1, pos: 0,
+  win: null, winBuf: null, wasPlaying: false, lastAng: 0, lastT: 0,
+  vel: 0, angle: 0, spin: 0, raf: null
+};
+const SEC_PER_TURN = 1.8;      /* 한 바퀴 = 1.8초 (33⅓ rpm) */
+
+/* 뒤로 긁을 때 쓸 역재생 구간 (12초 창) — 통째로 뒤집으면 메모리가 커서 창만 만듭니다 */
+function buildRevWindow(buf, center) {
+  const sr = buf.sampleRate, W = 12;
+  const w0 = Math.max(0, Math.min(Math.max(0, buf.duration - W), center - W / 2));
+  const start = Math.floor(w0 * sr);
+  const len = Math.min(Math.floor(W * sr), buf.length - start);
+  if (len <= 0) return null;
+  const r = ac.createBuffer(buf.numberOfChannels, len, sr);
+  for (let c = 0; c < buf.numberOfChannels; c++) {
+    const sdat = buf.getChannelData(c), ddat = r.getChannelData(c);
+    for (let i = 0; i < len; i++) ddat[i] = sdat[start + len - 1 - i];
+  }
+  return { w0: w0, W: len / sr, buf: r };
+}
+
+function scrStopNode() {
+  if (SCR.node) {
+    try { SCR.node.onended = null; SCR.node.stop(); } catch (e) {}
+    SCR.node = null;
+  }
+}
+
+function scrStartNode(dir, rate) {
+  const d = DJ.decks[SCR.deck];
+  if (!d || !d.buffer) return;
+  scrStopNode();
+  const t = ac.currentTime;
+  const s = ac.createBufferSource();
+  let off;
+  if (dir >= 0) { s.buffer = d.buffer; off = Math.max(0, Math.min(d.buffer.duration - 0.05, SCR.pos)); }
+  else {
+    if (!SCR.win) return;
+    s.buffer = SCR.win.buf;
+    off = (SCR.win.w0 + SCR.win.W) - SCR.pos;
+    if (off < 0.02 || off > SCR.win.W - 0.02) return;
+  }
+  s.playbackRate.value = Math.max(0.02, Math.min(4, rate));
+  s.connect(SCR.gain);
+  s.start(t, off);
+  SCR.node = s; SCR.dir = dir;
+}
+
+function scratchStart(ev) {
+  const d = DJ.decks[SCR.deck];
+  if (!d || !d.buffer) return;
+  if (ac.state === "suspended") ac.resume();
+  SCR.on = true;
+  SCR.wasPlaying = d.playing;
+  SCR.pos = deckPos(d);
+  deckStop(SCR.deck, true);
+  renderDeck(SCR.deck);
+  SCR.win = buildRevWindow(d.buffer, SCR.pos);
+  SCR.gain = ac.createGain(); SCR.gain.gain.value = 0.95;
+  SCR.gain.connect(DJ.master);
+  SCR.lastAng = jogAngle(ev);
+  SCR.lastT = performance.now();
+  SCR.vel = 0;
+  scrStartNode(1, 0.02);
+  const el = document.getElementById("jog");
+  if (el) el.classList.add("grab");
+}
+
+function scratchMove(ev) {
+  if (!SCR.on) return;
+  const d = DJ.decks[SCR.deck];
+  if (!d || !d.buffer) return;
+  const a = jogAngle(ev), now = performance.now();
+  let da = a - SCR.lastAng;
+  while (da > Math.PI) da -= Math.PI * 2;
+  while (da < -Math.PI) da += Math.PI * 2;
+  const dt = Math.max(0.008, (now - SCR.lastT) / 1000);
+  SCR.lastAng = a; SCR.lastT = now;
+  SCR.angle += da * 180 / Math.PI;
+
+  const dsec = (da / (Math.PI * 2)) * SEC_PER_TURN;
+  SCR.pos = Math.max(0, Math.min(d.buffer.duration - 0.05, SCR.pos + dsec));
+  const v = dsec / dt;
+  SCR.vel = SCR.vel * 0.45 + v * 0.55;
+
+  /* 역방향 창을 벗어나면 다시 만듦 */
+  if (SCR.win && (SCR.pos < SCR.win.w0 + 1 || SCR.pos > SCR.win.w0 + SCR.win.W - 1)) {
+    SCR.win = buildRevWindow(d.buffer, SCR.pos);
+    if (SCR.dir < 0) scrStartNode(-1, Math.abs(SCR.vel));
+  }
+  const nd = SCR.vel >= 0 ? 1 : -1;
+  const rate = Math.max(0.02, Math.min(4, Math.abs(SCR.vel)));
+  if (nd !== SCR.dir || !SCR.node) scrStartNode(nd, rate);
+  else if (SCR.node) {
+    try { SCR.node.playbackRate.setTargetAtTime(rate, ac.currentTime, 0.006); } catch (e) { SCR.node.playbackRate.value = rate; }
+  }
+  const jd = document.getElementById("jogDisc");
+  if (jd) jd.style.transform = "rotate(" + SCR.angle.toFixed(1) + "deg)";
+  const sp = document.getElementById("jogSpeed");
+  if (sp) sp.textContent = (SCR.vel >= 0 ? "▶ " : "◀ ") + Math.abs(SCR.vel).toFixed(2) + "×";
+}
+
+function scratchEnd() {
+  if (!SCR.on) return;
+  SCR.on = false;
+  const d = DJ.decks[SCR.deck];
+  scrStopNode();
+  if (SCR.gain) {
+    const g = SCR.gain, t = ac.currentTime;
+    try { g.gain.setTargetAtTime(0.0001, t, 0.02); } catch (e) {}
+    setTimeout(function () { try { g.disconnect(); } catch (e) {} }, 200);
+    SCR.gain = null;
+  }
+  if (d) {
+    d.offset = SCR.pos;
+    if (SCR.wasPlaying) deckPlay(SCR.deck); else renderDeck(SCR.deck);
+  }
+  const el = document.getElementById("jog");
+  if (el) el.classList.remove("grab");
+  const sp = document.getElementById("jogSpeed");
+  if (sp) sp.textContent = "";
+}
+
+function jogAngle(ev) {
+  const el = document.getElementById("jog");
+  if (!el) return 0;
+  const r = el.getBoundingClientRect();
+  const x = (ev.clientX !== undefined ? ev.clientX : 0) - (r.left + r.width / 2);
+  const y = (ev.clientY !== undefined ? ev.clientY : 0) - (r.top + r.height / 2);
+  return Math.atan2(y, x);
+}
+
+function jogSpin() {
+  if (SCR.raf) cancelAnimationFrame(SCR.raf);
+  const step = function () {
+    if (currentView !== "dj") { SCR.raf = null; return; }
+    const d = DJ.decks[SCR.deck];
+    if (!SCR.on && d && d.playing) {
+      SCR.angle += 360 / (SEC_PER_TURN * 60) * d.rate;
+      const jd = document.getElementById("jogDisc");
+      if (jd) jd.style.transform = "rotate(" + SCR.angle.toFixed(1) + "deg)";
+    }
+    SCR.raf = requestAnimationFrame(step);
+  };
+  SCR.raf = requestAnimationFrame(step);
+}
+
+function jogHtml() {
+  const d = DJ.decks.A;
+  const cover = d && d.track ? esc(d.track.cover || d.track.album.cover) : "";
+  const off = !(d && d.buffer);
+  return '<div class="jogwrap">' +
+    '<div class="jog' + (off ? " off" : "") + '" id="jog">' +
+      '<div class="jog-disc" id="jogDisc"><div class="jog-mark"></div>' +
+        '<div class="jog-label">' + (cover ? '<img src="' + cover + '" alt="">' : "") + '</div></div>' +
+      '<div class="jog-hub"></div>' +
+    '</div>' +
+    '<div class="jog-speed" id="jogSpeed"></div>' +
+    '<div class="jog-cap"><b>A덱 레코드</b> — 판을 잡고 좌우로 돌리면 그대로 긁힙니다</div>' +
+  '</div>';
+}
+
+function renderJog() {
+  const box = document.getElementById("jogBox");
+  if (box) box.innerHTML = jogHtml();
+}
+
+document.addEventListener("pointerdown", function (e) {
+  const j = e.target.closest("#jog");
+  if (!j || j.classList.contains("off")) return;
+  e.preventDefault();
+  try { j.setPointerCapture(e.pointerId); } catch (err) {}
+  scratchStart(e);
+}, { passive: false });
+document.addEventListener("pointermove", function (e) { if (SCR.on) { e.preventDefault(); scratchMove(e); } }, { passive: false });
+document.addEventListener("pointerup", scratchEnd);
+document.addEventListener("pointercancel", scratchEnd);
+
 function flashPad(id) {
   const el = document.querySelector('.pad[data-pad="' + id + '"]');
   if (!el) return;
@@ -1799,6 +2212,8 @@ document.addEventListener("keydown", function (e) {
   const k = e.key.toUpperCase();
   const dr = DRUMS.find(function (d) { return d.key === k; });
   if (dr) { e.preventDefault(); playDrum(dr.id); return; }
+  const ng = NIGHT.find(function (d) { return d.key === k; });
+  if (ng) { e.preventDefault(); playNight(ng.id); return; }
   if (k === "Z") { e.preventDefault(); deckToggle("A"); }
   if (k === "X") { e.preventDefault(); deckToggle("B"); }
 });
@@ -1840,6 +2255,7 @@ function renderDeck(id) {
 
 function padsHtml() {
   const ready = !!(DJ.decks.A && DJ.decks.A.buffer);
+  const src = ready && DJ.decks.A.track ? DJ.decks.A.track.title : "곡을 올려주세요";
   const hooks = HOOK_KEYS.map(function (k, i) {
     return '<button class="pad pad-hook' + (ready ? "" : " dim") + '" data-pad="h' + i + '">' +
       '<span class="pad-key">' + k + '</span><span class="pad-n">HOOK ' + (i + 1) + '</span>' +
@@ -1850,7 +2266,15 @@ function padsHtml() {
       '<span class="pad-key">' + d.key + '</span><span class="pad-n">' + d.id.toUpperCase() + '</span>' +
       '<span class="pad-name">' + d.name + '</span></button>';
   }).join("");
-  return hooks + drums;
+  const night = NIGHT.map(function (d) {
+    return '<button class="pad pad-night" data-pad="n' + d.id + '">' +
+      '<span class="pad-key">' + d.key + '</span><span class="pad-n">' + esc(d.sub) + '</span>' +
+      '<span class="pad-name">' + esc(d.name) + '</span></button>';
+  }).join("");
+  return '' +
+    '<div class="padgroup"><p class="pad-lab"><b>HOOK</b> 훅 · ' + esc(src) + ' 8분할</p><div class="pads">' + hooks + '</div></div>' +
+    '<div class="padgroup"><p class="pad-lab d"><b>DRUM</b> 드럼</p><div class="pads">' + drums + '</div></div>' +
+    '<div class="padgroup"><p class="pad-lab n"><b>NIGHT</b> 7080 나이트</p><div class="pads">' + night + '</div></div>';
 }
 
 function renderPads() {
@@ -1873,12 +2297,18 @@ function renderDJ() {
         '<button class="dbtn" data-dj="center">가운데</button></div>' +
       '<div class="dj-deck" id="deckB">' + deckInner("B") + '</div>' +
     '</div>' +
-    '<p class="dj-hint">키보드로도 칠 수 있습니다 — 훅 <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd><kbd>8</kbd> · ' +
-      '드럼 <kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd> · 덱 재생 <kbd>Z</kbd><kbd>X</kbd><br>' +
-      '훅 패드는 A덱 곡이 바뀌면 자동으로 다시 잘립니다. 「바이닐」 패드는 돌아가는 판을 잠깐 죽였다 살립니다.</p>' +
-    '<div class="pads" id="padGrid">' + padsHtml() + '</div></div>';
+    '<div id="jogBox">' + jogHtml() + '</div>' +
+    '<p class="dj-hint">키보드 3줄이 그대로 패드입니다 — ' +
+      '훅 <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd><kbd>8</kbd> · ' +
+      '드럼 <kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>T</kbd><kbd>Y</kbd><kbd>U</kbd><kbd>I</kbd> · ' +
+      '나이트 <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd><kbd>H</kbd><kbd>J</kbd><kbd>K</kbd> · ' +
+      '덱 재생 <kbd>Z</kbd><kbd>X</kbd><br>' +
+      '훅 패드는 A덱 곡이 바뀌면 자동으로 다시 잘립니다. 「바이닐」은 돌아가는 판을 잠깐 죽였다 살리고, ' +
+      '「스크래치」는 A덱에서 지금 나오는 지점을 긁습니다. 「카운트다운」은 다섯을 세고 에어혼과 함성으로 터집니다.</p>' +
+    '<div id="padGrid">' + padsHtml() + '</div></div>';
   syncRail();
   djLoop();
+  jogSpin();
 }
 
 function djLoop() {
@@ -2242,7 +2672,9 @@ document.addEventListener("click", (e) => {
   const padEl = e.target.closest(".pad");
   if (padEl) {
     const pid = padEl.dataset.pad;
-    if (pid[0] === "h") playHook(+pid.slice(1)); else playDrum(pid.slice(1));
+    if (pid[0] === "h") playHook(+pid.slice(1));
+    else if (pid[0] === "n") playNight(pid.slice(1));
+    else playDrum(pid.slice(1));
     return;
   }
   const djb = e.target.closest("[data-dj]");
