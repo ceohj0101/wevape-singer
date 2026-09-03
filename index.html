@@ -280,6 +280,64 @@ svg[hidden]{display:none}
 .album-note{font-size:13.5px;color:var(--dim);line-height:1.8;margin:0 0 12px;max-width:58ch}
 @media (max-width:620px){ .album-cover{width:104px;height:104px} .album-head{gap:14px} }
 
+
+/* ---------- DJ 모드 ---------- */
+body.dj-mode > .deck{display:none !important}
+body.dj-mode main{padding-bottom:40px}
+.dj-wrap{margin-top:22px}
+.dj-decks{display:grid;grid-template-columns:1fr 132px 1fr;gap:16px;align-items:stretch}
+.dj-deck{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px 17px;min-width:0}
+.dj-deck.live{border-color:var(--brass);box-shadow:0 0 0 1px rgba(201,162,39,.25)}
+.dj-h{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.dj-tag{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:21px;line-height:1;color:var(--brass);letter-spacing:.02em}
+.dj-state{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);margin-left:auto;letter-spacing:.06em}
+.dj-state.on{color:var(--brass)}
+.dj-deck select{width:100%;background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:13px;font-family:inherit;margin-bottom:11px}
+.dj-art{display:flex;gap:11px;align-items:center;margin-bottom:11px}
+.dj-art img{width:52px;height:52px;border-radius:6px;object-fit:cover;flex:none;background:var(--surface-2)}
+.dj-meta{min-width:0}
+.dj-title{display:block;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dj-sub{display:block;font-size:11.5px;color:var(--faint);margin-top:2px}
+.dj-prog{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin:2px 0 4px}
+.dj-prog i{display:block;height:100%;width:0;background:var(--brass);border-radius:3px}
+.dj-time{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);margin-bottom:11px}
+.dj-btns{display:flex;gap:7px;margin-bottom:12px}
+.dbtn{flex:1;border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:9px;padding:9px 4px;font-size:12.5px;font-family:inherit;cursor:pointer;transition:.15s}
+.dbtn:hover{border-color:var(--brass);color:var(--brass)}
+.dbtn.main{background:var(--brass);border-color:var(--brass);color:#17130a;font-weight:700}
+.dbtn.main.on{background:transparent;color:var(--brass)}
+.dj-knob{margin-bottom:9px}
+.dj-knob label{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);margin-bottom:5px;letter-spacing:.05em}
+.dj-knob label b{color:var(--brass);font-weight:600}
+input[type=range].sl{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:var(--surface-2);outline:none;cursor:pointer}
+input[type=range].sl::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--brass);border:2px solid var(--surface);cursor:pointer}
+input[type=range].sl::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--brass);border:2px solid var(--surface);cursor:pointer}
+.xfader{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 10px}
+.xf-label{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;color:var(--faint)}
+.xf-ab{display:flex;justify-content:space-between;width:100%;font-family:"Black Han Sans",sans-serif;font-size:15px;color:var(--brass)}
+.xfader input[type=range]{width:100%}
+.xfader .dbtn{flex:none;width:100%;padding:8px 4px;font-size:11.5px}
+.xfader .sl{margin:4px 0}
+.dj-hint{font-size:12px;color:var(--faint);margin:16px 0 8px;line-height:1.85}
+.dj-hint kbd{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--dim);margin:0 1px}
+.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.pad{position:relative;aspect-ratio:1.35/1;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;color:var(--text);overflow:hidden;transition:transform .06s,box-shadow .12s,border-color .12s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.pad:active,.pad.hit{transform:scale(.955)}
+.pad-hook{border-color:rgba(201,162,39,.34)}
+.pad-hook.hit{background:var(--brass);color:#17130a;border-color:var(--brass);box-shadow:0 0 22px rgba(201,162,39,.6)}
+.pad-drum{border-color:rgba(224,50,43,.3)}
+.pad-drum.hit{background:#E0322B;color:#fff;border-color:#E0322B;box-shadow:0 0 22px rgba(224,50,43,.6)}
+.pad-n{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;opacity:.55}
+.pad-name{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.pad-key{position:absolute;top:6px;right:8px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;opacity:.42}
+.pad.dim{opacity:.4}
+@media (max-width:760px){
+  .dj-decks{grid-template-columns:1fr;gap:12px}
+  .pads{gap:7px}
+  .pad{aspect-ratio:1/1;border-radius:10px}
+  .pad-name{font-size:11.5px}
+}
+
 /* ---------- 조회수 ---------- */
 .pc{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);letter-spacing:-.01em}
 .track[aria-current="true"] .pc{color:var(--brass)}
@@ -821,10 +879,18 @@ const ARTISTS = [
       "그가 사람을 만나면 던지는 첫 마디는 정해져 있다. 어디 살아? 몇 살? 예의 차리는 인사말을 건너뛰고 곧바로 본론으로 들어가는 방식인데, 이상하게 기분이 나쁘지 않다. 그 다음 마디가 항상 한잔 돌려이기 때문이다.",
       "그가 가장 못 견디는 것은 칙칙한 자리다. 남자는 재미가 없거든 하고 한숨을 쉬다가도, 재밌는 친구만 앞으로 나와 하고 판을 다시 깐다. 이 친구 물건이거든이라는 말이 나오면 그날 밤은 성공한 것이다.",
       "트로트 쾌남이라는 이름은 그렇게 붙었다. 잘생겨서가 아니라, 피곤한 얼굴로도 끝까지 자리를 지키는 사람이라서.",
-      "그리고 신곡 「나란남자 논란이 있거든」에서 그는 한 발 더 나간다. 빤히 쳐다보면 곤란하다며 시작해서, 결국 자기 존재 자체가 논란이라고 선언해 버린다. 잘생겼다고 자기 입으로 말한 건 아니고 거울이 그러더라는 식이다. 뻔뻔한데 밉지가 않다. 차영근이 늘 그런 식이었다."
+      "그리고 신곡 「나란남자 논란이 있거든」에서 그는 한 발 더 나간다. 빤히 쳐다보면 곤란하다며 시작해서, 결국 자기 존재 자체가 논란이라고 선언해 버린다. 잘생겼다고 자기 입으로 말한 건 아니고 거울이 그러더라는 식이다. 뻔뻔한데 밉지가 않다. 차영근이 늘 그런 식이었다.",
+      "그런 그가 「다음에 또 만나요」에서는 처음으로 조용해진다. 논란도 화제도 하루면 지나가고, 결국 남는 건 자리를 파하면서 건네는 인사 한마디뿐이라는 걸 그도 아는 모양이다. 빨간 정장 대신 차분한 옷을 입고, 한 마디만 남긴다. 다음에 또 만나요."
     ],
     color: "#E0B24A", color2: "#12203A", photo: "younggeun.jpg",
     albums: [
+      {
+        id: "daeume", title: "다음에 또 만나요", en: "", year: "2026", cat: "MS-8802", cover: "daeume-tto-mannayo.jpg", added: "2026-09-02",
+        note: "스페셜 싱글. 논란도 화제도 다 지나가고, 남는 건 헤어질 때 하는 인사 한마디. 빨간 정장을 벗고 처음으로 조용해진 트로트 쾌남.",
+        tracks: [
+          { title: "다음에 또 만나요", src: "daeume-tto-mannayo.mp3", duration: 75, tag: "타이틀", added: "2026-09-02" }
+        ]
+      },
       {
         id: "naran-namja", title: "나란 남자", en: "", year: "2026", cat: "MS-8801", cover: "naran-namja.jpg", added: "2026-08-26",
         note: "신곡 앨범. 논란·화제·인기, 그 중심엔 나. 피곤한 얼굴로 밤을 지키던 트로트 쾌남이, 이번엔 아예 자기 존재가 논란이라고 선언해 버렸다.",
@@ -1364,6 +1430,7 @@ function renderHome() {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/></svg>
         인기차트
       </button>
+      <button class="btn-ghost" id="showDJ">디제이 부스</button>
       <button class="btn-ghost" id="showNew">신곡${NEW_COUNT ? '<span class="badge-new">' + NEW_COUNT + '</span>' : ""}</button>
       <button class="btn-ghost" id="showRoster">가수 명단</button>
       <button class="btn-ghost" id="showAll">전체 곡 목록 ${PLAYABLE.length}${NEW_COUNT ? '<span class="badge-new">NEW ' + NEW_COUNT + '</span>' : ""}</button>
@@ -1464,6 +1531,376 @@ function renderNew() {
   syncRail();
 }
 
+
+/* ═══════════════════ DJ 모드 ═══════════════════ */
+const DRUMS = [
+  { id: "kick",  name: "킥",     key: "Q" },
+  { id: "snare", name: "스네어", key: "W" },
+  { id: "hat",   name: "하이햇", key: "E" },
+  { id: "clap",  name: "클랩",   key: "R" },
+  { id: "horn",  name: "에어혼", key: "A" },
+  { id: "riser", name: "라이저", key: "S" },
+  { id: "stop",  name: "바이닐", key: "D" },
+  { id: "boom",  name: "임팩트", key: "F" }
+];
+const HOOK_KEYS = ["1","2","3","4","5","6","7","8"];
+const DJ = { master: null, padOut: null, decks: {}, cache: {}, slices: [], xf: 0.5, raf: null, loading: {} };
+
+function djInit() {
+  ensureAudioGraph();
+  if (!ac) return false;
+  if (DJ.master) return true;
+  DJ.master = ac.createGain(); DJ.master.gain.value = 0.9;
+  DJ.master.connect(analyser || ac.destination);
+  DJ.padOut = ac.createGain(); DJ.padOut.gain.value = 0.85;
+  DJ.padOut.connect(DJ.master);
+  ["A","B"].forEach(function (k) {
+    const g = ac.createGain(); g.connect(DJ.master);
+    DJ.decks[k] = { id: k, gain: g, buffer: null, track: null, src: null,
+                    playing: false, startAt: 0, offset: 0, rate: 1, vol: 0.85 };
+  });
+  applyXfader();
+  return true;
+}
+
+function loadBuffer(url) {
+  if (DJ.cache[url]) return Promise.resolve(DJ.cache[url]);
+  return fetch(url).then(function (r) { return r.arrayBuffer(); })
+    .then(function (b) { return new Promise(function (res, rej) { ac.decodeAudioData(b, res, rej); }); })
+    .then(function (buf) { DJ.cache[url] = buf; return buf; });
+}
+
+function deckPos(d) {
+  if (!d || !d.buffer) return 0;
+  return d.playing ? Math.min(d.buffer.duration, d.offset + (ac.currentTime - d.startAt) * d.rate) : d.offset;
+}
+
+function deckStop(id, keep) {
+  const d = DJ.decks[id]; if (!d) return;
+  if (d.src) {
+    const pos = deckPos(d);
+    try { d.src.onended = null; d.src.stop(); } catch (e) {}
+    d.src = null; d.offset = keep ? pos : 0;
+  } else if (!keep) d.offset = 0;
+  d.playing = false;
+}
+
+function deckPlay(id) {
+  const d = DJ.decks[id];
+  if (!d || !d.buffer || d.playing) return;
+  if (ac.state === "suspended") ac.resume();
+  const s = ac.createBufferSource();
+  s.buffer = d.buffer; s.playbackRate.value = d.rate;
+  s.connect(d.gain);
+  s.start(0, Math.max(0, Math.min(d.offset, d.buffer.duration - 0.05)));
+  s.onended = function () { if (d.src === s) { d.src = null; d.playing = false; d.offset = 0; renderDeck(id); } };
+  d.src = s; d.playing = true; d.startAt = ac.currentTime;
+  renderDeck(id);
+}
+
+function deckToggle(id) {
+  const d = DJ.decks[id]; if (!d || !d.buffer) return;
+  if (d.playing) { deckStop(id, true); renderDeck(id); } else deckPlay(id);
+}
+
+function deckCue(id) {
+  const d = DJ.decks[id]; if (!d) return;
+  const was = d.playing;
+  deckStop(id, false);
+  if (was) deckPlay(id); else renderDeck(id);
+}
+
+function deckRate(id, r) {
+  const d = DJ.decks[id]; if (!d) return;
+  if (d.playing) { d.offset = deckPos(d); d.startAt = ac.currentTime; }
+  d.rate = r;
+  if (d.src) d.src.playbackRate.value = r;
+}
+
+function deckVol(id, v) { const d = DJ.decks[id]; if (d) { d.vol = v; applyXfader(); } }
+
+function deckLoad(id, key) {
+  const d = DJ.decks[id]; const t = PLAYABLE.find(function (x) { return x.key === key; });
+  if (!d || !t) return;
+  deckStop(id, false);
+  d.track = t; d.buffer = null;
+  DJ.loading[id] = true; renderDeck(id);
+  loadBuffer(t.src).then(function (buf) {
+    d.buffer = buf; DJ.loading[id] = false;
+    if (id === "A") buildHooks();
+    renderDeck(id); renderPads();
+  }).catch(function () { DJ.loading[id] = false; renderDeck(id); });
+}
+
+function applyXfader() {
+  const x = DJ.xf;
+  const a = Math.cos(x * Math.PI / 2), b = Math.cos((1 - x) * Math.PI / 2);
+  if (DJ.decks.A) DJ.decks.A.gain.gain.value = a * DJ.decks.A.vol;
+  if (DJ.decks.B) DJ.decks.B.gain.gain.value = b * DJ.decks.B.vol;
+  const ea = document.getElementById("xfA"), eb = document.getElementById("xfB");
+  if (ea) ea.style.opacity = (0.32 + a * 0.68).toFixed(2);
+  if (eb) eb.style.opacity = (0.32 + b * 0.68).toFixed(2);
+}
+
+function buildHooks() {
+  const buf = DJ.decks.A && DJ.decks.A.buffer;
+  DJ.slices = [];
+  if (!buf) return;
+  const L = buf.duration;
+  for (let i = 0; i < 8; i++) DJ.slices.push({ start: L * i / 8, dur: L / 8 });
+}
+
+function playHook(i) {
+  const d = DJ.decks.A;
+  if (!d || !d.buffer || !DJ.slices[i]) return;
+  if (ac.state === "suspended") ac.resume();
+  const sl = DJ.slices[i], dur = Math.min(sl.dur, 8), t = ac.currentTime;
+  const s = ac.createBufferSource(); s.buffer = d.buffer;
+  const g = ac.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(1, t + 0.012);
+  g.gain.setValueAtTime(1, t + Math.max(0.06, dur - 0.09));
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  s.connect(g); g.connect(DJ.padOut);
+  s.start(t, sl.start, dur);
+  s.stop(t + dur + 0.03);
+  flashPad("h" + i);
+}
+
+function noiseBuffer(dur) {
+  const n = Math.max(1, Math.floor(ac.sampleRate * dur));
+  const b = ac.createBuffer(1, n, ac.sampleRate);
+  const c = b.getChannelData(0);
+  for (let i = 0; i < n; i++) c[i] = Math.random() * 2 - 1;
+  return b;
+}
+function envGain(t, a, dcy, peak) {
+  const g = ac.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t + a);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + a + dcy);
+  return g;
+}
+function noiseHit(t, dur, type, freq, q, peak) {
+  const s = ac.createBufferSource(); s.buffer = noiseBuffer(dur + 0.06);
+  const f = ac.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) f.Q.value = q;
+  const g = envGain(t, 0.002, dur, peak);
+  s.connect(f); f.connect(g); g.connect(DJ.padOut);
+  s.start(t); s.stop(t + dur + 0.07);
+}
+
+function playDrum(id) {
+  if (!ac || !DJ.padOut) return;
+  if (ac.state === "suspended") ac.resume();
+  const t = ac.currentTime;
+  if (id === "kick") {
+    const o = ac.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(160, t);
+    o.frequency.exponentialRampToValueAtTime(44, t + 0.13);
+    const g = envGain(t, 0.004, 0.34, 1.05);
+    o.connect(g); g.connect(DJ.padOut); o.start(t); o.stop(t + 0.42);
+    noiseHit(t, 0.03, "lowpass", 2400, 1, 0.35);
+  } else if (id === "snare") {
+    noiseHit(t, 0.19, "bandpass", 1900, 0.7, 0.75);
+    const o = ac.createOscillator(); o.type = "triangle";
+    o.frequency.setValueAtTime(210, t); o.frequency.exponentialRampToValueAtTime(150, t + 0.11);
+    const g = envGain(t, 0.003, 0.13, 0.5);
+    o.connect(g); g.connect(DJ.padOut); o.start(t); o.stop(t + 0.2);
+  } else if (id === "hat") {
+    noiseHit(t, 0.055, "highpass", 8200, 0.9, 0.42);
+  } else if (id === "clap") {
+    [0, 0.013, 0.027, 0.043].forEach(function (o, i) {
+      noiseHit(t + o, i === 3 ? 0.17 : 0.035, "bandpass", 1250, 1.3, i === 3 ? 0.62 : 0.5);
+    });
+  } else if (id === "horn") {
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.5, t + 0.05);
+    g.gain.setValueAtTime(0.5, t + 0.95);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.25);
+    const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1400; f.Q.value = 1.1;
+    const lfo = ac.createOscillator(); lfo.frequency.value = 6.2;
+    const lg = ac.createGain(); lg.gain.value = 9;
+    lfo.connect(lg);
+    [370, 466, 555].forEach(function (fr, i) {
+      const o = ac.createOscillator(); o.type = "sawtooth"; o.frequency.value = fr;
+      lg.connect(o.frequency);
+      const og = ac.createGain(); og.gain.value = i === 0 ? 0.5 : 0.28;
+      o.connect(og); og.connect(f); o.start(t); o.stop(t + 1.3);
+    });
+    f.connect(g); g.connect(DJ.padOut);
+    lfo.start(t); lfo.stop(t + 1.3);
+  } else if (id === "riser") {
+    const s = ac.createBufferSource(); s.buffer = noiseBuffer(1.7);
+    const f = ac.createBiquadFilter(); f.type = "highpass"; f.Q.value = 6;
+    f.frequency.setValueAtTime(240, t);
+    f.frequency.exponentialRampToValueAtTime(9000, t + 1.5);
+    const g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.55, t + 1.42);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.62);
+    s.connect(f); f.connect(g); g.connect(DJ.padOut);
+    s.start(t); s.stop(t + 1.7);
+  } else if (id === "stop") {
+    vinylStop();
+  } else if (id === "boom") {
+    const o = ac.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(92, t); o.frequency.exponentialRampToValueAtTime(32, t + 0.9);
+    const g = envGain(t, 0.006, 1.05, 0.95);
+    o.connect(g); g.connect(DJ.padOut); o.start(t); o.stop(t + 1.2);
+    noiseHit(t, 0.6, "lowpass", 900, 0.7, 0.3);
+  }
+  flashPad("d" + id);
+}
+
+function vinylStop() {
+  let any = false;
+  ["A","B"].forEach(function (k) {
+    const d = DJ.decks[k];
+    if (!d || !d.playing || !d.src) return;
+    any = true;
+    const t = ac.currentTime, pos = deckPos(d), pr = d.src.playbackRate;
+    pr.cancelScheduledValues(t);
+    pr.setValueAtTime(d.rate, t);
+    pr.linearRampToValueAtTime(0.02, t + 0.55);
+    pr.setValueAtTime(0.02, t + 0.85);
+    pr.linearRampToValueAtTime(d.rate, t + 1.25);
+    d.offset = pos; d.startAt = t;
+    setTimeout(function () {
+      if (!d.playing) return;
+      d.offset = pos + d.rate * 0.5;
+      d.startAt = ac.currentTime;
+    }, 1300);
+  });
+  if (!any) {
+    const t = ac.currentTime;
+    const o = ac.createOscillator(); o.type = "sawtooth";
+    o.frequency.setValueAtTime(420, t); o.frequency.exponentialRampToValueAtTime(28, t + 0.75);
+    const f = ac.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 2200;
+    const g = envGain(t, 0.01, 0.8, 0.4);
+    o.connect(f); f.connect(g); g.connect(DJ.padOut);
+    o.start(t); o.stop(t + 0.9);
+  }
+}
+
+function flashPad(id) {
+  const el = document.querySelector('.pad[data-pad="' + id + '"]');
+  if (!el) return;
+  el.classList.add("hit");
+  setTimeout(function () { el.classList.remove("hit"); }, 130);
+}
+
+document.addEventListener("keydown", function (e) {
+  if (currentView !== "dj" || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "select" || tag === "textarea") return;
+  const hi = HOOK_KEYS.indexOf(e.key);
+  if (hi >= 0) { e.preventDefault(); playHook(hi); return; }
+  const k = e.key.toUpperCase();
+  const dr = DRUMS.find(function (d) { return d.key === k; });
+  if (dr) { e.preventDefault(); playDrum(dr.id); return; }
+  if (k === "Z") { e.preventDefault(); deckToggle("A"); }
+  if (k === "X") { e.preventDefault(); deckToggle("B"); }
+});
+
+function deckInner(id) {
+  const d = DJ.decks[id];
+  if (!d) return "";
+  const t = d.track, loading = DJ.loading[id];
+  const pos = deckPos(d), dur = d.buffer ? d.buffer.duration : 0;
+  return '' +
+    '<div class="dj-h"><span class="dj-tag">DECK ' + id + '</span>' +
+    '<span class="dj-state' + (d.playing ? " on" : "") + '">' +
+      (loading ? "불러오는 중" : d.playing ? "▶ PLAYING" : d.buffer ? "READY" : "EMPTY") + '</span></div>' +
+    '<select data-deck="' + id + '"><option value="">— 곡 선택 —</option>' +
+      PLAYABLE.map(function (x) {
+        return '<option value="' + x.key + '"' + (t && t.key === x.key ? " selected" : "") + '>' +
+               esc(x.artist.name) + ' · ' + esc(x.title) + '</option>';
+      }).join("") + '</select>' +
+    '<div class="dj-art"><img src="' + (t ? esc(t.album.cover) : "") + '" alt="">' +
+      '<span class="dj-meta"><span class="dj-title">' + (t ? esc(t.title) : "곡을 올려주세요") + '</span>' +
+      '<span class="dj-sub">' + (t ? esc(t.artist.name) + " · 「" + esc(t.album.title) + "」" : "위에서 고르면 바로 로딩됩니다") + '</span></span></div>' +
+    '<div class="dj-prog"><i style="width:' + (dur ? (pos / dur * 100).toFixed(1) : 0) + '%"></i></div>' +
+    '<div class="dj-time"><span>' + fmt(pos) + '</span><span>' + fmt(dur) + '</span></div>' +
+    '<div class="dj-btns">' +
+      '<button class="dbtn main' + (d.playing ? " on" : "") + '" data-dj="play:' + id + '">' + (d.playing ? "■ 정지" : "▶ 재생") + '</button>' +
+      '<button class="dbtn" data-dj="cue:' + id + '">⏮ 큐</button></div>' +
+    '<div class="dj-knob"><label><span>TEMPO</span><b>' + d.rate.toFixed(2) + '×</b></label>' +
+      '<input type="range" class="sl" data-djrate="' + id + '" min="0.80" max="1.25" step="0.01" value="' + d.rate + '"></div>' +
+    '<div class="dj-knob"><label><span>VOLUME</span><b>' + Math.round(d.vol * 100) + '</b></label>' +
+      '<input type="range" class="sl" data-djvol="' + id + '" min="0" max="1" step="0.01" value="' + d.vol + '"></div>';
+}
+
+function renderDeck(id) {
+  const box = document.getElementById("deck" + id);
+  if (!box) return;
+  box.innerHTML = deckInner(id);
+  box.classList.toggle("live", !!(DJ.decks[id] && DJ.decks[id].playing));
+}
+
+function padsHtml() {
+  const ready = !!(DJ.decks.A && DJ.decks.A.buffer);
+  const hooks = HOOK_KEYS.map(function (k, i) {
+    return '<button class="pad pad-hook' + (ready ? "" : " dim") + '" data-pad="h' + i + '">' +
+      '<span class="pad-key">' + k + '</span><span class="pad-n">HOOK ' + (i + 1) + '</span>' +
+      '<span class="pad-name">' + (ready && DJ.slices[i] ? fmt(DJ.slices[i].start) : "—") + '</span></button>';
+  }).join("");
+  const drums = DRUMS.map(function (d) {
+    return '<button class="pad pad-drum" data-pad="d' + d.id + '">' +
+      '<span class="pad-key">' + d.key + '</span><span class="pad-n">' + d.id.toUpperCase() + '</span>' +
+      '<span class="pad-name">' + d.name + '</span></button>';
+  }).join("");
+  return hooks + drums;
+}
+
+function renderPads() {
+  const box = document.getElementById("padGrid");
+  if (box) box.innerHTML = padsHtml();
+}
+
+function renderDJ() {
+  currentArtist = null; currentView = "dj";
+  const ok = djInit();
+  view.innerHTML =
+    '<p class="eyebrow">DJ Booth</p><h1 class="big">디제이 부스</h1>' +
+    '<p class="lede">A덱과 B덱에 곡을 올리고 크로스페이더로 섞습니다. 아래 런치패드 위 8칸은 A덱 곡을 8토막으로 자른 훅, 아래 8칸은 드럼·효과음입니다.</p>' +
+    (ok ? "" : '<p class="empty">이 브라우저는 오디오 엔진을 지원하지 않습니다.</p>') +
+    '<div class="dj-wrap"><div class="dj-decks">' +
+      '<div class="dj-deck" id="deckA">' + deckInner("A") + '</div>' +
+      '<div class="xfader"><span class="xf-label">CROSSFADER</span>' +
+        '<div class="xf-ab"><b id="xfA">A</b><b id="xfB">B</b></div>' +
+        '<input type="range" class="sl" id="xfader" min="0" max="1" step="0.01" value="' + DJ.xf + '">' +
+        '<button class="dbtn" data-dj="center">가운데</button></div>' +
+      '<div class="dj-deck" id="deckB">' + deckInner("B") + '</div>' +
+    '</div>' +
+    '<p class="dj-hint">키보드로도 칠 수 있습니다 — 훅 <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd><kbd>8</kbd> · ' +
+      '드럼 <kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd> · 덱 재생 <kbd>Z</kbd><kbd>X</kbd><br>' +
+      '훅 패드는 A덱 곡이 바뀌면 자동으로 다시 잘립니다. 「바이닐」 패드는 돌아가는 판을 잠깐 죽였다 살립니다.</p>' +
+    '<div class="pads" id="padGrid">' + padsHtml() + '</div></div>';
+  syncRail();
+  djLoop();
+}
+
+function djLoop() {
+  if (DJ.raf) cancelAnimationFrame(DJ.raf);
+  const step = function () {
+    if (currentView !== "dj") { DJ.raf = null; return; }
+    ["A","B"].forEach(function (k) {
+      const d = DJ.decks[k];
+      if (!d || !d.buffer) return;
+      const box = document.getElementById("deck" + k);
+      if (!box) return;
+      const bar = box.querySelector(".dj-prog i");
+      const tm = box.querySelectorAll(".dj-time span");
+      const pos = deckPos(d);
+      if (bar) bar.style.width = (pos / d.buffer.duration * 100).toFixed(2) + "%";
+      if (tm[0]) tm[0].textContent = fmt(pos);
+    });
+    DJ.raf = requestAnimationFrame(step);
+  };
+  DJ.raf = requestAnimationFrame(step);
+}
+
 function renderRoster() {
   currentArtist = null; currentView = "roster";
   view.innerHTML = `
@@ -1562,9 +1999,8 @@ function lyricsHtml(t) {
   LYRICS = [];
   const raw = (t.lyrics || "").trim();
   if (!raw) {
-    return `<div class="lyr-empty">아직 가사가 등록되지 않았습니다.<br>
-      <code style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">index.html</code> 의 이 곡 항목에 <code style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">lyrics</code> 로 가사를 붙여넣으면 여기에 바로 나옵니다.<br>
-      줄 앞에 <b>[0:12]</b> 처럼 시간을 적으면 노래에 맞춰 한 줄씩 따라갑니다.</div>`;
+    return `<div class="lyr-empty">이 곡은 아직 가사가 등록되지 않았습니다.<br>
+      가사가 준비되면 이 자리에 바로 올라갑니다.</div>`;
   }
   const lines = raw.split("\n");
   let timed = false, out = "";
@@ -1737,7 +2173,10 @@ function allRow(t, i) {
 }
 
 function syncRail() {
-  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railNew" ${currentView === "new" ? 'aria-current="true"' : ""}>
+  document.body.classList.toggle("dj-mode", currentView === "dj");
+  $("#railList").innerHTML = `<li class="rail-all"><button class="rail-item" id="railDJ" ${currentView === "dj" ? 'aria-current="true"' : ""}>
+      <span class="dot"></span>디제이 부스
+    </button></li>` + `<li class="rail-all"><button class="rail-item" id="railNew" ${currentView === "new" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>신곡 ${dotNew(NEW_COUNT > 0)}<span class="mono" style="margin-left:auto;font-size:11px;opacity:.6">${NEW_COUNT}</span>
     </button></li>` + `<li class="rail-all"><button class="rail-item" id="railRoster" ${currentView === "roster" ? 'aria-current="true"' : ""}>
       <span class="dot"></span>가수 명단
@@ -1750,6 +2189,27 @@ function syncRail() {
       <span class="dot"></span>${esc(a.name)}${dotNew(a.isNew)}
     </button></li>`).join("");
 }
+
+document.addEventListener("input", function (e) {
+  const el = e.target;
+  if (el.id === "xfader") { DJ.xf = +el.value; applyXfader(); return; }
+  if (el.dataset && el.dataset.djrate) {
+    deckRate(el.dataset.djrate, +el.value);
+    const lb = el.closest(".dj-knob").querySelector("label b");
+    if (lb) lb.textContent = (+el.value).toFixed(2) + "×";
+    return;
+  }
+  if (el.dataset && el.dataset.djvol) {
+    deckVol(el.dataset.djvol, +el.value);
+    const lb = el.closest(".dj-knob").querySelector("label b");
+    if (lb) lb.textContent = Math.round(el.value * 100);
+    return;
+  }
+});
+document.addEventListener("change", function (e) {
+  const sel = e.target.closest("select[data-deck]");
+  if (sel && sel.value) deckLoad(sel.dataset.deck, sel.value);
+});
 
 document.addEventListener("click", (e) => {
   const card = e.target.closest("[data-artist]");
@@ -1779,6 +2239,21 @@ document.addEventListener("click", (e) => {
   }
   if (e.target.closest("#showAll") || e.target.closest("#railAll")) { $("#q").value = ""; renderAll(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railChart") || e.target.closest("#showChart")) { $("#q").value = ""; renderChart(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  const padEl = e.target.closest(".pad");
+  if (padEl) {
+    const pid = padEl.dataset.pad;
+    if (pid[0] === "h") playHook(+pid.slice(1)); else playDrum(pid.slice(1));
+    return;
+  }
+  const djb = e.target.closest("[data-dj]");
+  if (djb) {
+    const parts = djb.dataset.dj.split(":");
+    if (parts[0] === "play") deckToggle(parts[1]);
+    else if (parts[0] === "cue") deckCue(parts[1]);
+    else if (parts[0] === "center") { DJ.xf = 0.5; const xe = document.getElementById("xfader"); if (xe) xe.value = 0.5; applyXfader(); }
+    return;
+  }
+  if (e.target.closest("#railDJ") || e.target.closest("#showDJ")) { $("#q").value = ""; au.pause(); renderDJ(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railNew") || e.target.closest("#showNew")) { $("#q").value = ""; renderNew(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   if (e.target.closest("#railRoster") || e.target.closest("#showRoster")) { $("#q").value = ""; renderRoster(); window.scrollTo({top:0,behavior:"smooth"}); return; }
   const rtab = e.target.closest(".tab[data-range]");
