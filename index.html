@@ -353,6 +353,13 @@ input[type=range].sl::-moz-range-thumb{width:15px;height:15px;border-radius:50%;
 .pad-hook.hit{background:var(--brass);color:#17130a;border-color:var(--brass);box-shadow:0 0 22px rgba(201,162,39,.6)}
 .pad-drum{border-color:rgba(224,50,43,.3)}
 .pad-drum.hit{background:#E0322B;color:#fff;border-color:#E0322B;box-shadow:0 0 22px rgba(224,50,43,.6)}
+.pad-song{border-color:rgba(90,168,255,.32)}
+.pad-song.hit{background:#3E8BE0;color:#fff;border-color:#3E8BE0;box-shadow:0 0 22px rgba(62,139,224,.6)}
+.pad-song.busy{border-color:#3E8BE0;box-shadow:0 0 16px rgba(62,139,224,.45)}
+.pad-song.busy .pad-name{color:#7FB6F0}
+.pad-alb{font-size:10.5px;color:var(--faint);margin-top:1px;max-width:92%;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.pad-lab.s b{color:#3E8BE0}
 .pad-night{border-color:rgba(214,69,155,.32)}
 .pad-night.hit{background:#D6459B;color:#fff;border-color:#D6459B;box-shadow:0 0 22px rgba(214,69,155,.62)}
 .pad.busy{border-color:#D6459B;box-shadow:0 0 16px rgba(214,69,155,.42)}
@@ -1577,13 +1584,14 @@ const NIGHT = [
   { id: "ah",     name: "아으~",    sub: "추임새",   key: "A" },
   { id: "eoeo",   name: "어어어~",  sub: "긴 신음",  key: "S" },
   { id: "yaho",   name: "으아~",    sub: "환성",     key: "D" },
-  { id: "count",  name: "카운트다운", sub: "5·4·3·2·1", key: "F" },
+  { id: "ja",     name: "자~~~",     sub: "시작 신호",  key: "F" },
   { id: "siren",  name: "사이렌",   sub: "나이트",   key: "G" },
   { id: "laser",  name: "뿅뿅",     sub: "레이저",   key: "H" },
   { id: "scratch",name: "스크래치", sub: "긁기",     key: "J" },
   { id: "crowd",  name: "함성",     sub: "박수",     key: "K" }
 ];
 const HOOK_KEYS = ["1","2","3","4","5","6","7","8"];
+const SONG_KEYS = ["Z","X","C","V","B","N","M","O","P"];
 const DJ = { master: null, padOut: null, decks: {}, cache: {}, slices: [], xf: 0.5, raf: null, loading: {} };
 
 function djInit() {
@@ -1900,58 +1908,38 @@ function crowdBuffer() {
   CROWD = b; return b;
 }
 
-/* ---- 카운트다운 ---- */
-let countTimers = [];
-let KO_VOICE = null;
-function warmVoices() {
-  if (!window.speechSynthesis) return;
-  const pick = function () {
-    const vs = speechSynthesis.getVoices() || [];
-    KO_VOICE = vs.find(function (v) { return /^ko/i.test(v.lang) && /google/i.test(v.name); })
-            || vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
-  };
-  try { pick(); speechSynthesis.addEventListener("voiceschanged", pick); } catch (e) {}
+/* ---- 곡 원샷 패드: 누르면 그 곡이 통째로 나가고, 다시 누르면 정지 ---- */
+const SONGP = { key: null, node: null, gain: null, loading: null };
+
+function stopSong() {
+  if (SONGP.node) { try { SONGP.node.onended = null; SONGP.node.stop(); } catch (e) {} SONGP.node = null; }
+  if (SONGP.gain) { try { SONGP.gain.disconnect(); } catch (e) {} SONGP.gain = null; }
+  const prev = SONGP.key; SONGP.key = null;
+  if (prev) markSongPad(prev, false);
 }
-function countdown() {
-  countTimers.forEach(clearTimeout); countTimers = [];
-  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
-  const words = ["다섯", "넷", "셋", "둘", "하나"];
-  let koVoice = KO_VOICE;
-  if (!koVoice) {
-    try {
-      if (window.speechSynthesis) {
-        const vs = speechSynthesis.getVoices() || [];
-        koVoice = vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
-        KO_VOICE = koVoice;
-      }
-    } catch (e) {}
-  }
-  const el = document.querySelector('.pad[data-pad="ncount"]');
-  if (el) el.classList.add("busy");
-  words.forEach(function (w, i) {
-    countTimers.push(setTimeout(function () {
-      const t = ac.currentTime;
-      const last = i === 4;
-      const o = ac.createOscillator(); o.type = "square";
-      o.frequency.value = last ? 1320 : 880;
-      const g = envGain(t, 0.004, last ? 0.4 : 0.11, 0.34);
-      const f = ac.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 4200;
-      o.connect(f); f.connect(g); g.connect(DJ.padOut);
-      o.start(t); o.stop(t + (last ? 0.5 : 0.2));
-      if (koVoice) {
-        try {
-          const u = new SpeechSynthesisUtterance(w);
-          u.voice = koVoice; u.lang = koVoice.lang; u.rate = 1.15; u.pitch = 0.85; u.volume = 1;
-          speechSynthesis.speak(u);
-        } catch (e) {}
-      }
-      flashPad("ncount");
-      if (last) countTimers.push(setTimeout(function () {
-        playDrum("horn"); playNight("crowd");
-        if (el) el.classList.remove("busy");
-      }, 520));
-    }, i * 620));
-  });
+
+function markSongPad(key, on) {
+  const i = PLAYABLE.findIndex(function (x) { return x.key === key; });
+  const el = document.querySelector('.pad[data-pad="s' + i + '"]');
+  if (el) el.classList.toggle("busy", !!on);
+}
+
+function playSong(key) {
+  const t = PLAYABLE.find(function (x) { return x.key === key; });
+  if (!t || !ac) return;
+  if (ac.state === "suspended") ac.resume();
+  if (SONGP.key === key) { stopSong(); return; }
+  stopSong();
+  SONGP.key = key; markSongPad(key, true);
+  SONGP.loading = key;
+  loadBuffer(t.src).then(function (buf) {
+    if (SONGP.key !== key) return;
+    const g = ac.createGain(); g.gain.value = 0.9; g.connect(DJ.master);
+    const s = ac.createBufferSource(); s.buffer = buf; s.connect(g);
+    s.onended = function () { if (SONGP.node === s) stopSong(); };
+    s.start(0);
+    SONGP.node = s; SONGP.gain = g;
+  }).catch(function () { stopSong(); });
 }
 
 /* ---- 나이트 패드 ---- */
@@ -1965,8 +1953,10 @@ function playNight(id) {
     voiceHit({ dur: 1.7, f0: 128, mid: 152, f1: 118, from: "eo", to: "eo", peak: 0.5, atk: 0.12, vib: 5.8, vibDepth: 9 });
   } else if (id === "yaho") {           /* 으아~ 환성 */
     voiceHit({ dur: 1.05, f0: 150, mid: 232, f1: 176, from: "eu", to: "a", peak: 0.55, atk: 0.05, vib: 6.4, vibDepth: 8 });
-  } else if (id === "count") {
-    countdown(); return;
+  } else if (id === "ja") {                /* 자~~~ (장현진 시작 신호) */
+    noiseHit(t, 0.05, "bandpass", 3100, 1.6, 0.3);          /* ㅈ 파찰음 */
+    voiceHit({ dur: 1.95, f0: 124, mid: 190, f1: 170, from: "a", to: "a",
+               peak: 0.58, atk: 0.06, vib: 5.6, vibDepth: 12 });
   } else if (id === "siren") {          /* 나이트 사이렌 */
     const o = ac.createOscillator(); o.type = "sawtooth"; o.frequency.value = 720;
     const lfo = ac.createOscillator(); lfo.type = "sine"; lfo.frequency.value = 1.5;
@@ -2227,8 +2217,10 @@ document.addEventListener("keydown", function (e) {
   if (dr) { e.preventDefault(); playDrum(dr.id); return; }
   const ng = NIGHT.find(function (d) { return d.key === k; });
   if (ng) { e.preventDefault(); playNight(ng.id); return; }
-  if (k === "Z") { e.preventDefault(); deckToggle("A"); }
-  if (k === "X") { e.preventDefault(); deckToggle("B"); }
+  const si = SONG_KEYS.indexOf(k);
+  if (si >= 0 && PLAYABLE[si]) { e.preventDefault(); playSong(PLAYABLE[si].key); return; }
+  if (e.code === "Space") { e.preventDefault(); deckToggle("A"); return; }
+  if (e.key === "\\") { e.preventDefault(); deckToggle("B"); return; }
 });
 
 function deckInner(id) {
@@ -2284,7 +2276,15 @@ function padsHtml() {
       '<span class="pad-key">' + d.key + '</span><span class="pad-n">' + esc(d.sub) + '</span>' +
       '<span class="pad-name">' + esc(d.name) + '</span></button>';
   }).join("");
+  const songs = PLAYABLE.map(function (t, i) {
+    return '<button class="pad pad-song' + (SONGP.key === t.key ? " busy" : "") + '" data-pad="s' + i + '">' +
+      '<span class="pad-key">' + (SONG_KEYS[i] || "") + '</span>' +
+      '<span class="pad-n">' + esc(t.artist.name) + '</span>' +
+      '<span class="pad-name">' + esc(t.title) + '</span>' +
+      '<span class="pad-alb">「' + esc(t.album.title) + '」</span></button>';
+  }).join("");
   return '' +
+    '<div class="padgroup"><p class="pad-lab s"><b>SONG</b> 곡 원샷 — 누르면 통째로, 다시 누르면 정지</p><div class="pads">' + songs + '</div></div>' +
     '<div class="padgroup"><p class="pad-lab"><b>HOOK</b> 훅 · ' + esc(src) + ' 8분할</p><div class="pads">' + hooks + '</div></div>' +
     '<div class="padgroup"><p class="pad-lab d"><b>DRUM</b> 드럼</p><div class="pads">' + drums + '</div></div>' +
     '<div class="padgroup"><p class="pad-lab n"><b>NIGHT</b> 7080 나이트</p><div class="pads">' + night + '</div></div>';
@@ -2315,12 +2315,12 @@ function renderDJ() {
       '훅 <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd><kbd>6</kbd><kbd>7</kbd><kbd>8</kbd> · ' +
       '드럼 <kbd>Q</kbd><kbd>W</kbd><kbd>E</kbd><kbd>R</kbd><kbd>T</kbd><kbd>Y</kbd><kbd>U</kbd><kbd>I</kbd> · ' +
       '나이트 <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd><kbd>H</kbd><kbd>J</kbd><kbd>K</kbd> · ' +
-      '덱 재생 <kbd>Z</kbd><kbd>X</kbd><br>' +
+      '곡 <kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd><kbd>V</kbd><kbd>B</kbd><kbd>N</kbd><kbd>M</kbd> · ' +
+      '덱 재생 <kbd>Space</kbd><kbd>\\</kbd><br>' +
       '훅 패드는 A덱 곡이 바뀌면 자동으로 다시 잘립니다. 「바이닐」은 돌아가는 판을 잠깐 죽였다 살리고, ' +
-      '「스크래치」는 A덱에서 지금 나오는 지점을 긁습니다. 「카운트다운」은 다섯을 세고 에어혼과 함성으로 터집니다.</p>' +
+      '「스크래치」는 A덱에서 지금 나오는 지점을 긁습니다. 「자~~~」는 판 깔 때 던지는 시작 신호입니다.</p>' +
     '<div id="padGrid">' + padsHtml() + '</div></div>';
   syncRail();
-  warmVoices();
   djLoop();
   jogSpin();
 }
@@ -2688,6 +2688,7 @@ document.addEventListener("click", (e) => {
     const pid = padEl.dataset.pad;
     if (pid[0] === "h") playHook(+pid.slice(1));
     else if (pid[0] === "n") playNight(pid.slice(1));
+    else if (pid[0] === "s") { const tt = PLAYABLE[+pid.slice(1)]; if (tt) playSong(tt.key); }
     else playDrum(pid.slice(1));
     return;
   }
