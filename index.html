@@ -1902,17 +1902,30 @@ function crowdBuffer() {
 
 /* ---- 카운트다운 ---- */
 let countTimers = [];
+let KO_VOICE = null;
+function warmVoices() {
+  if (!window.speechSynthesis) return;
+  const pick = function () {
+    const vs = speechSynthesis.getVoices() || [];
+    KO_VOICE = vs.find(function (v) { return /^ko/i.test(v.lang) && /google/i.test(v.name); })
+            || vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
+  };
+  try { pick(); speechSynthesis.addEventListener("voiceschanged", pick); } catch (e) {}
+}
 function countdown() {
   countTimers.forEach(clearTimeout); countTimers = [];
   try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
   const words = ["다섯", "넷", "셋", "둘", "하나"];
-  let koVoice = null;
-  try {
-    if (window.speechSynthesis) {
-      const vs = speechSynthesis.getVoices() || [];
-      koVoice = vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
-    }
-  } catch (e) {}
+  let koVoice = KO_VOICE;
+  if (!koVoice) {
+    try {
+      if (window.speechSynthesis) {
+        const vs = speechSynthesis.getVoices() || [];
+        koVoice = vs.find(function (v) { return /^ko/i.test(v.lang); }) || null;
+        KO_VOICE = koVoice;
+      }
+    } catch (e) {}
+  }
   const el = document.querySelector('.pad[data-pad="ncount"]');
   if (el) el.classList.add("busy");
   words.forEach(function (w, i) {
@@ -2307,6 +2320,7 @@ function renderDJ() {
       '「스크래치」는 A덱에서 지금 나오는 지점을 긁습니다. 「카운트다운」은 다섯을 세고 에어혼과 함성으로 터집니다.</p>' +
     '<div id="padGrid">' + padsHtml() + '</div></div>';
   syncRail();
+  warmVoices();
   djLoop();
   jogSpin();
 }
