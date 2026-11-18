@@ -283,13 +283,28 @@ svg[hidden]{display:none}
 
 /* ---------- 릴스 ---------- */
 body.reels-mode > .deck{display:none !important}
-body.reels-mode main{padding-bottom:0}
-.rl-wrap{margin-top:18px}
-.rl-stage{position:relative;width:100%;max-width:430px;margin:0 auto;aspect-ratio:9/16;
-  border-radius:18px;overflow:hidden;background:#000;box-shadow:0 18px 44px rgba(0,0,0,.45)}
-@media (min-width:760px){.rl-stage{max-width:392px}}
+/* 릴스일 때는 페이지가 아니라 영상만 스크롤 */
+html:has(body.reels-mode){overflow:hidden}
+body.reels-mode{overflow:hidden;height:100dvh}
+body.reels-mode .masthead{display:none}
+body.reels-mode .shell{display:block;max-width:none;padding:0;gap:0}
+body.reels-mode .rail{display:none}
+body.reels-mode main{padding:0;min-height:0}
+.rl-wrap{margin:0}
+.rl-stage{position:fixed;inset:0;z-index:70;background:#000;overflow:hidden}
 .rl-feed{position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;
-  scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain}
+  scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch}
+@media (min-width:760px){
+  /* 데스크톱에서는 화면 높이에 꽉 맞춘 9:16 세로 기둥 */
+  .rl-feed{left:50%;right:auto;width:min(100%,calc(100dvh * 9 / 16));transform:translateX(-50%)}
+}
+.rl-home{position:absolute;top:calc(13px + env(safe-area-inset-top));left:14px;z-index:8;
+  appearance:none;cursor:pointer;border:0;background:rgba(0,0,0,.42);backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);color:#fff;border-radius:999px;padding:7px 13px 8px;text-align:left;
+  font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-size:12.5px;letter-spacing:.02em;line-height:1.1}
+.rl-home small{display:block;font-family:"IBM Plex Mono",monospace;font-size:8px;letter-spacing:.2em;
+  color:rgba(255,255,255,.62);margin-top:2px}
 .rl-feed::-webkit-scrollbar{display:none}
 .rl-card{position:relative;width:100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;
   overflow:hidden;background:#000}
@@ -316,7 +331,7 @@ body.reels-mode main{padding-bottom:0}
   text-shadow:0 1px 6px rgba(0,0,0,.75);padding:0}
 .rl-rail button s{text-decoration:none;font-size:21px;line-height:1}
 .rl-rail button.on s{color:#E0322B}
-.rl-sound{position:absolute;top:14px;right:14px;z-index:6;appearance:none;cursor:pointer;
+.rl-sound{position:absolute;top:calc(14px + env(safe-area-inset-top));right:14px;z-index:6;appearance:none;cursor:pointer;
   background:rgba(0,0,0,.52);border:1px solid rgba(255,255,255,.34);border-radius:999px;
   color:#fff;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;padding:7px 12px}
 .rl-brand{position:absolute;top:15px;left:16px;z-index:4;pointer-events:none;
@@ -1605,7 +1620,6 @@ function reelCard(r, i) {
     '<video data-src="' + esc(r.src) + '"' + (i === 0 ? ' src="' + esc(r.src) + '"' : "") +
       ' poster="' + esc(r.poster || "") + '" playsinline muted loop preload="none"></video>' +
     '<div class="rl-top"></div><div class="rl-bot"></div>' +
-    '<div class="rl-brand">WEVAPE SINGER<small>HKR RECORDS</small></div>' +
     '<div class="rl-meta">' +
       '<span class="rl-who"><img src="' + esc(reelArtistPhoto(r)) + '" alt=""><b>' + esc(r.artist) + '</b></span>' +
       '<p class="rl-title">' + esc(r.title) + '</p>' +
@@ -1624,9 +1638,8 @@ function reelCard(r, i) {
 function renderReels() {
   currentArtist = null; currentView = "reels";
   view.innerHTML =
-    '<p class="eyebrow">Reels</p><h1 class="big">릴스</h1>' +
-    '<p class="lede">위베이프 싱어 숏폼입니다. 위아래로 넘겨서 보세요. 영상 속 곡은 아래 「전곡 듣기」로 바로 이어집니다.</p>' +
     '<div class="rl-wrap"><div class="rl-stage">' +
+      '<button class="rl-home" id="rlHome">WEVAPE SINGER<small>&#9776; 전체 메뉴</small></button>' +
       '<button class="rl-sound" id="rlSound">🔇 소리 켜기</button>' +
       '<div class="rl-feed" id="rlFeed">' +
       '<div class="rl-empty"><b>불러오는 중</b><span>잠시만 기다려 주세요.</span></div>' +
@@ -2883,6 +2896,7 @@ document.addEventListener("click", (e) => {
     else if (parts[0] === "center") { DJ.xf = 0.5; const xe = document.getElementById("xfader"); if (xe) xe.value = 0.5; applyXfader(); }
     return;
   }
+  if (e.target.closest("#rlHome")) { stopReels(); renderHome(); window.scrollTo({ top: 0 }); return; }
   if (e.target.closest("#rlSound")) { toggleReelSound(); return; }
   const rlk = e.target.closest("[data-rlike]");
   if (rlk) {
@@ -3196,7 +3210,7 @@ if ("serviceWorker" in navigator) {
 }
 
 setArm(null);
-renderHome();
+renderReels();   /* 첫 화면은 릴스 */
 loadPlaysFile();
 loadCounts("all");
 setInterval(() => loadCounts("all"), 60000);   /* 1분마다 전 서버 누적 갱신 */
