@@ -1602,7 +1602,8 @@ function reelArtistPhoto(r) {
 function reelCard(r, i) {
   const liked = !!REELS.likes[r.id];
   return '<div class="rl-card" data-reel="' + i + '">' +
-    '<video src="' + esc(r.src) + '" poster="' + esc(r.poster || "") + '" playsinline muted loop preload="' + (i === 0 ? "auto" : "none") + '"></video>' +
+    '<video data-src="' + esc(r.src) + '"' + (i === 0 ? ' src="' + esc(r.src) + '"' : "") +
+      ' poster="' + esc(r.poster || "") + '" playsinline muted loop preload="none"></video>' +
     '<div class="rl-top"></div><div class="rl-bot"></div>' +
     '<div class="rl-brand">WEVAPE SINGER<small>HKR RECORDS</small></div>' +
     '<div class="rl-meta">' +
@@ -1649,6 +1650,27 @@ function renderReels() {
 }
 
 /* 화면에 들어온 영상만 재생 */
+function reelAttach(v) {
+  if (!v || !v.dataset.src) return;
+  if (!v.getAttribute("src")) { v.setAttribute("src", v.dataset.src); v.load(); }
+}
+function reelDetach(v) {
+  if (!v || !v.getAttribute("src")) return;
+  try { v.pause(); } catch (e) {}
+  v.removeAttribute("src");
+  try { v.load(); } catch (e) {}   /* 버퍼 반환 */
+}
+
+/* 현재 칸 기준 앞뒤 1칸만 메모리에 둔다 — 영상이 늘어나도 느려지지 않게 */
+function reelTrim(box, idx) {
+  const cards = box.querySelectorAll(".rl-card");
+  cards.forEach(function (c, i) {
+    const v = c.querySelector("video");
+    if (!v) return;
+    if (Math.abs(i - idx) <= 1) reelAttach(v); else reelDetach(v);
+  });
+}
+
 function startReelObserver(box) {
   if (REELS.io) REELS.io.disconnect();
   REELS.io = new IntersectionObserver(function (entries) {
@@ -1656,11 +1678,13 @@ function startReelObserver(box) {
       const v = en.target.querySelector("video");
       if (!v) return;
       if (en.isIntersecting && en.intersectionRatio > 0.6) {
+        const cards = [].slice.call(box.querySelectorAll(".rl-card"));
+        const idx = cards.indexOf(en.target);
+        reelTrim(box, idx);
         v.muted = REELS.muted;
-        if (v.preload === "none") v.preload = "auto";
         v.play().catch(function () {});
       } else {
-        v.pause();
+        try { v.pause(); } catch (e) {}
       }
     });
   }, { root: box, threshold: [0, 0.6, 1] });
@@ -1669,7 +1693,10 @@ function startReelObserver(box) {
 
 function stopReels() {
   if (REELS.io) { REELS.io.disconnect(); REELS.io = null; }
-  document.querySelectorAll(".rl-card video").forEach(function (v) { try { v.pause(); } catch (e) {} });
+  document.querySelectorAll(".rl-card video").forEach(function (v) {
+    try { v.pause(); } catch (e) {}
+    if (v.getAttribute("src")) { v.removeAttribute("src"); try { v.load(); } catch (e) {} }
+  });
 }
 
 function toggleReelSound() {
