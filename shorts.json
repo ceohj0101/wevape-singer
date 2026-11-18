@@ -1,16 +1,44 @@
 {
   "updated": "2026-11-18",
   "shorts": [
-    {
-      "id": "gyotong-01",
-      "src": "shorts-gyotong.mp4",
-      "poster": "traffic-clear.jpg",
-      "title": "교통정리",
-      "artist": "장현진",
-      "album": "교통정리",
-      "trackKey": "hyunjin:traffic-clear:0",
-      "caption": "트로트 신사가 마이크를 고쳐 잡은 이유는 하나다. 여기도 좀 정리가 필요해서.",
-      "added": "2026-11-18"
-    }
+    { "id":"gyotong-jam", "src":"short-gyotong-jam.mp4", "poster":"traffic-clear.jpg",
+      "title":"교통정리", "artist":"장현진", "album":"교통정리", "trackKey":"hyunjin:traffic-clear:0",
+      "caption":"길이 막힐수록, 정리할 사람이 필요합니다.", "added":"2026-11-18" },
+
+    { "id":"duo-dance", "src":"short-duo-dance.mp4", "poster":"naran-namja.jpg",
+      "title":"나란남자 논란이 있거든", "artist":"차영근", "album":"나란 남자", "trackKey":"younggeun:naran-namja:0",
+      "caption":"둘이 서니까 논란도 두 배입니다.", "added":"2026-11-18" },
+
+    { "id":"practice", "src":"short-practice.mp4", "poster":"chyeojin-namja-joa.jpg",
+      "title":"쳐진 남자 좋아", "artist":"김형진", "album":"쳐진 남자 좋아", "trackKey":"hyungjin:chyeojin:0",
+      "caption":"거울 앞에서 혼자 연습한 티가 납니다.", "added":"2026-11-18" },
+
+    { "id":"camp-sunset", "src":"short-camp-sunset.mp4", "poster":"daeume-tto-mannayo.jpg",
+      "title":"다음에 또 만나요", "artist":"차영근", "album":"다음에 또 만나요", "trackKey":"younggeun:daeume:0",
+      "caption":"불 꺼지기 전 마지막 한 곡.", "added":"2026-11-18" },
+
+    { "id":"suit-duo", "src":"short-suit-duo.mp4", "poster":"jeongri-halkkeyo.jpg",
+      "title":"정리할게요", "artist":"장현진", "album":"정리할게요", "trackKey":"hyunjin:jeongri:0",
+      "caption":"트로트 신사는 각을 잡고 등장합니다.", "added":"2026-11-18" },
+
+    { "id":"camp-dance", "src":"short-camp-dance.mp4", "poster":"younggeun.jpg",
+      "title":"영차거든", "artist":"차영근", "album":"피곤하거든~", "trackKey":"younggeun:piegon:0",
+      "caption":"피곤하거든. 그래도 놀아야 하거든.", "added":"2026-11-18" },
+
+    { "id":"jeep-rain", "src":"short-jeep-rain.mp4", "poster":"hyungjin.jpg",
+      "title":"나 같은 남자 어때요", "artist":"김형진", "album":"'85 트로트 늘보 제1집", "trackKey":"hyungjin:trot85:0",
+      "caption":"논밭에 세워둔 미제 찌프차. 그게 남자의 삶 아니겠소.", "added":"2026-11-18" },
+
+    { "id":"jeep-wheel", "src":"short-jeep-wheel.mp4", "poster":"hyungjin.jpg",
+      "title":"나 같은 남자 어때요", "artist":"김형진", "album":"'85 트로트 늘보 제1집", "trackKey":"hyungjin:trot85:0",
+      "caption":"세피아도 쏘나타도 나한텐 용납이 안 됩니다.", "added":"2026-11-18" },
+
+    { "id":"nagateun-mv", "src":"short-nagateun-mv.mp4", "poster":"hyungjin.jpg",
+      "title":"나 같은 남자 어때요 (전체 영상)", "artist":"김형진", "album":"'85 트로트 늘보 제1집", "trackKey":"hyungjin:trot85:0",
+      "caption":"1988년 가을, 눈 처진 남자가 데뷔하던 날. 2분 40초 전체 영상입니다.", "added":"2026-11-18" },
+
+    { "id":"gyotong-lp", "src":"shorts-gyotong.mp4", "poster":"traffic-clear.jpg",
+      "title":"교통정리 (LP)", "artist":"장현진", "album":"교통정리", "trackKey":"hyunjin:traffic-clear:0",
+      "caption":"자켓이 프린트된 LP가 돌아갑니다.", "added":"2026-11-18" }
   ]
 }
